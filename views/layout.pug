@@ -1,0 +1,52 @@
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name="description" content="Q&A made simple")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(rel="apple-touch-icon" href="apple-touch-icon.png")
+        block head
+            title() Asuu.me - Ask anything
+
+        link(rel="stylesheet", href="/public/css/normalize.css")
+        link(rel="stylesheet", href="/public/css/main.css")
+        link(rel="stylesheet", href="/public/css/bootstrap.min.css")
+
+        script(src="/public/js/vendor/modernizr-2.8.3.min.js")
+        script(src="/public/js/jquery-3.2.1.min.js")
+        script(src="/public/js/bootstrap.min.js")
+        script(src="/public/js/main.js")
+    header
+        nav(class="navbar navbar-toggleable-md navbar-inverse bg-primary" style="background-color: #9bc95b !important;")
+            button(class="navbar-toggler navbar-toggler-right" type="button" 
+              data-toggle="collapse" data-target="#navbarNavDropdown" 
+              aria-controls="navbarNavDropdown" aria-expanded="false" 
+              aria-label="Toggle navigation")
+                span(class="navbar-toggler-icon")
+            a(class="navbar-brand" href="/") Asuu.me
+            div(class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown")
+                ul(class="navbar-nav")
+                    li(class="nav-item active")
+                        a(class="nav-link" href="/") Home 
+                        span(class="sr-only") (current)
+                    if user == null 
+                        li(class="nav-item" id="login-nav-btn")
+                            a(class="nav-link" href="/auth/facebook") Sign in with FB
+                    else
+                        li(class="nav-item dropdown" id="user-dropdown")
+                            a(class="nav-link dropdown-toggle" href="/profile" 
+                              id="navbarDropdownMenuLink" data-toggle="dropdown" 
+                              aria-haspopup="true" aria-expanded="false") <span id="display-name">#{user.displayName}</span>
+                            div(class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink")
+                                //- a(class="dropdown-item" href="/poll-create") Create new poll
+                                //- a(class="dropdown-item" href="/my-polls") My polls
+                                a(class="dropdown-item" href="/logout") Sign out
+    body
+      div(class="container content-container")
+          block content
+              p This page doesn't have any content yet.
+      block scripts
+        
+    footer(class="footer")
+      div(class="container")
+        span(class="text-muted") Zolbayar Bayarsaikhan | Used Foursquare API | 2017

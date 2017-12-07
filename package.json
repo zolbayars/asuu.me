@@ -1,0 +1,24 @@
+{
+  "name": "app_nightlife_coordination",
+  "version": "1.0.0",
+  "description": "A nightlife coordination app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Zolbayar Bayarsaikhan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "*",
+    "express-session": "^1.15.6",
+    "express-validator": "^3.2.1",
+    "mongoose": "^4.13.6",
+    "node-cache": "^4.1.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "request": "^2.83.0"
+  }
+}
