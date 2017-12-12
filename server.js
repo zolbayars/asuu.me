@@ -11,8 +11,23 @@ var express = require('express'),
   i18n = require("i18n");
 
 i18n.configure({
-    locales:['en', 'mn'],
-    directory: path.join(__dirname, "locales")
+    locales:['mn', 'en'],
+    defaultLocale: 'mn',
+    queryParameter: 'lang',
+    directory: path.join(__dirname, "locales"),
+    logDebugFn: function (msg) {
+        console.log('debug', msg);
+    },
+
+    // setting of log level WARN - default to require('debug')('i18n:warn')
+    logWarnFn: function (msg) {
+        console.log('warn', msg);
+    },
+
+    // setting of log level ERROR - default to require('debug')('i18n:error')
+    logErrorFn: function (msg) {
+        console.log('error', msg);
+    },
 });
 
 const NodeCache = require( "node-cache" );
@@ -41,7 +56,7 @@ app.use(expressValidator());
 app.use(function(req, res, next) {
     // express helper for natively supported engines
     res.locals.__ = res.__ = function() {
-        console.log("i18n called");
+        res.setLocale('mn');
         return i18n.__.apply(req, arguments);
     };
 
