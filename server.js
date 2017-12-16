@@ -56,7 +56,7 @@ app.use(expressValidator());
 app.use(function(req, res, next) {
     // express helper for natively supported engines
     res.locals.__ = res.__ = function() {
-        res.setLocale('mn');
+        // res.setLocale('mn');
         return i18n.__.apply(req, arguments);
     };
 
