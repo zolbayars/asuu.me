@@ -5,7 +5,7 @@ block content
   //-     img(class='app-icon' src="/public/images/icon.png")
   form(id="venue-search-form")
       div(class="input-group")
-          input(type="text" name="near-location" class="form-control" value=lastSearchTerm placeholder="${Ask a question}")
+          input(type="text" name="near-location" class="form-control" value=lastSearchTerm placeholder="Ask a question...")
           input(type="hidden" name="shouldClearLastSearch" value=lastSearchTerm ? "true" : "false")
           span(class="input-group-btn")
               button(id="venue-search-btn" class="btn btn-success" type="submit") Ask
