@@ -41,7 +41,7 @@ module.exports = function(app, passport, myCache){
         user = req.user.fb;
       }
 
-      res.render("home", {user: user});
+      res.render("home", {title: 'asuu.me - Where you can find the answers',user: user});
     });
 
   app.route('/login')

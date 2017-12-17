@@ -1,18 +1,16 @@
-<div class="header clearfix">
-    <nav>
-        <ul class="nav nav-pills pull-right">
-            <li role="presentation">
-              <form class="form-inline">
-                <label class="sr-only" for="inlineFormInput">Name</label>
-                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="<%= __('Ask a question') %>">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">asuu.me</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-                <button type="submit" class="btn btn-primary"><%= __('Ask') %></button>
-              </form>
-            </li>
-        </ul>
-        <h3 class="text-muted"><a href="/">asuu.me</a></h3>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
 
-
-
-    </nav>
-</div>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><%= __('Search')%></button>
+    </form>
+  </div>
+</nav>
