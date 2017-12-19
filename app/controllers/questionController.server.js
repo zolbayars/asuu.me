@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var request =  require("request");
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
-function PlaceController(myCache){
+function QuestionController(myCache){
 
   var foursquareExploreApi = "https://api.foursquare.com/v2/venues/explore";
 
@@ -259,4 +259,4 @@ function PlaceController(myCache){
 }
 
 
-module.exports = PlaceController;
+module.exports = QuestionController;

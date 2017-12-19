@@ -1,7 +1,9 @@
 {
-	"Ask a question": "Асуулт асуух...",
 	"Ask": "Асуух",
-	"Find the answer": "Find the answer",
+	"Ask a question": "Асуулт асуух...",
+	"Ask your question": "Асуух зүйлээ энд бич",
+	"Find the answer": "Хариултаа эндээс олоорой",
+	"Load more questions": "Өөр асуултуудыг харах",
 	"Search": "Хайх",
 	"Footer contributers": "Уг системийг анхлан бүтээсэн: "
 }

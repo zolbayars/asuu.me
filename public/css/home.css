@@ -1,8 +1,8 @@
-body {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
 .starter-template {
   padding: 2rem 1.5rem;
   text-align: center;
+}
+
+.load-more-container {
+  margin-top: 1.5rem;
 }

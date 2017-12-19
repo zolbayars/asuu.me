@@ -1,11 +1,11 @@
 'use strict'
 
 var path = process.cwd();
-var PlaceController = require(process.cwd() + "/app/controllers/placeController.server.js");
+var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
 
 module.exports = function(app, passport, myCache){
 
-  var placeController = new PlaceController(myCache);
+  var questionController = new QuestionController(myCache);
 
   function isLoggedIn(req, res, next){
 
@@ -44,6 +44,16 @@ module.exports = function(app, passport, myCache){
       res.render("home", {title: 'asuu.me - Where you can find the answers',user: user});
     });
 
+  // app.route('/questions/:id')
+  //   .get(questionController.getPlaceImage);
+
+  app.route('/questions/:id')
+    .get(function(req, res){
+      res.render("question-detail", {title: 'Question'});
+    });
+
+
+
   app.route('/login')
     .get(function(req, res){
       res.render('login');
@@ -55,22 +65,22 @@ module.exports = function(app, passport, myCache){
       res.redirect('/');
     });
 
-  app.route('/auth/facebook')
-    .get(passport.authenticate('facebook'));
-
-  app.route('/auth/facebook/callback')
-  	.get(passport.authenticate('facebook', {
-  		successRedirect: '/',
-  		failureRedirect: '/login'
-  	}));
-
-  app.route('/places')
-    .post(placeController.getNearPlaces);
-
-  app.route('/places/photo/:id')
-    .get(placeController.getPlaceImage);
-
-  app.route('/places/going/:id')
-    .post(isLoggedInAjax, placeController.addGoing)
-    .delete(isLoggedInAjax, placeController.removeGoing);
+  // app.route('/auth/facebook')
+  //   .get(passport.authenticate('facebook'));
+  //
+  // app.route('/auth/facebook/callback')
+  // 	.get(passport.authenticate('facebook', {
+  // 		successRedirect: '/',
+  // 		failureRedirect: '/login'
+  // 	}));
+  //
+  // app.route('/places')
+  //   .post(placeController.getNearPlaces);
+  //
+  // app.route('/places/photo/:id')
+  //   .get(placeController.getPlaceImage);
+  //
+  // app.route('/places/going/:id')
+  //   .post(isLoggedInAjax, placeController.addGoing)
+  //   .delete(isLoggedInAjax, placeController.removeGoing);
 }
