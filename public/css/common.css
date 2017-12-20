@@ -24,6 +24,10 @@ body > .container {
   padding-left: 15px;
 }
 
+.answer-divider {
+  margin-top: 4rem;
+}
+
 code {
   font-size: 80%;
 }
