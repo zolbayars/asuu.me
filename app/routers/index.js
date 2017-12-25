@@ -52,7 +52,10 @@ module.exports = function(app, passport, myCache){
       res.render("question-detail", {title: 'Question'});
     });
 
-
+  app.route('/user/:id')
+    .get(function(req, res){
+      res.render("user", {title: 'User'});
+    });
 
   app.route('/login')
     .get(function(req, res){

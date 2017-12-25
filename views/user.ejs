@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <%- include('partials/head') %>
+    <!-- Custom styles  -->
+    <link href="/public/css/user.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <%- include('partials/navbar.ejs') %>
+
+    <main role="main" class="container">
+
+     <div class="row">
+
+
+       <main role="main" class="col-md-12 pt-3">
+         <h1>User</h1>
+
+         <section class="row text-center placeholders">
+           <div class="col-6 col-sm-6 placeholder">
+             <h4>560</h4>
+             <div class="text-muted">Questions asked</div>
+           </div>
+           <div class="col-6 col-sm-6 placeholder">
+             <h4>330</h4>
+             <span class="text-muted">Answers provided</span>
+           </div>
+         </section>
+
+         <h2>Recent answers</h2>
+         <div class="table-responsive">
+           <table class="table table-striped">
+             <thead>
+               <tr>
+                 <th>Date</th>
+                 <th>Question</th>
+                 <th>Answer</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td>2017/12/25 13:47</td>
+                 <td>Why is it this way?</td>
+                 <td>It's this way because of the...</td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+       </main>
+     </div>
+
+
+    </main><!-- /.container -->
+
+    <%- include('partials/footer') %>
+    <%- include('partials/embedded-scripts') %>
+  </body>
+</html>
