@@ -1,37 +1,14 @@
 'use strict'
 
+const { check, body, validationResult } = require('express-validator/check');
+const { matchedData, sanitize } = require('express-validator/filter');
+
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
 
 module.exports = function(app, passport, myCache){
 
   var questionController = new QuestionController(myCache);
-
-  function isLoggedIn(req, res, next){
-
-    if(req.isAuthenticated()){
-      console.log("Authenticated");
-      return next(); //pass control to the next handler in middleware
-    }else{
-      console.log("Not Authenticated");
-      res.redirect('/login');
-    }
-  }
-
-  function isLoggedInAjax(req, res, next){
-
-    if(req.isAuthenticated()){
-      console.log("Authenticated");
-      return next(); //pass control to the next handler in middleware
-    }else{
-      console.log("Not Authenticated");
-      res.json({
-        result_code: 800,
-        result_msg: "You should login",
-        result_redirect_url: '/login'
-      });
-    }
-  }
 
   app.route('/')
     .get(function(req, res){
@@ -43,9 +20,6 @@ module.exports = function(app, passport, myCache){
 
       res.render("home", {title: 'asuu.me - Where you can find the answers',user: user});
     });
-
-  // app.route('/questions/:id')
-  //   .get(questionController.getPlaceImage);
 
   app.route('/questions/:id')
     .get(function(req, res){
@@ -59,7 +33,7 @@ module.exports = function(app, passport, myCache){
 
   app.route('/login')
     .get(function(req, res){
-      res.render('login');
+      res.render('login',  {title: 'Login'});
     });
 
   app.route('/logout')
@@ -77,13 +51,24 @@ module.exports = function(app, passport, myCache){
   // 		failureRedirect: '/login'
   // 	}));
   //
-  // app.route('/places')
-  //   .post(placeController.getNearPlaces);
-  //
+
   // app.route('/places/photo/:id')
   //   .get(placeController.getPlaceImage);
   //
-  // app.route('/places/going/:id')
-  //   .post(isLoggedInAjax, placeController.addGoing)
-  //   .delete(isLoggedInAjax, placeController.removeGoing);
+
+  app.route('/question/add', [
+      body('question').exists()
+    ])
+    .post(questionController.addQuestion);
+
+  function isLoggedIn(req, res, next){
+
+    if(req.isAuthenticated()){
+      console.log("Authenticated");
+      return next(); //pass control to the next handler in middleware
+    }else{
+      console.log("Not Authenticated");
+      res.redirect('/login');
+    }
+  }
 }

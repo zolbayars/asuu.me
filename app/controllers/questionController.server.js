@@ -1,32 +1,34 @@
 'use strict'
 
 var Users = require('../models/users.js');
-var Goings = require('../models/goings.js');
+var Answer = require('../models/answer.js');
+var Question = require('../models/question.js');
 var mongoose = require('mongoose');
 var request =  require("request");
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 function QuestionController(myCache){
 
-  var foursquareExploreApi = "https://api.foursquare.com/v2/venues/explore";
+  this.addQuestion = function(req, res){
 
-// Increasing Going count in the place's button
-  this.addGoing = function(req, res){
-
-    console.log("addGoing");
+    console.log("addQuestion");
+    console.log(req.body);
     console.log(req.params);
 
-    var going = new Goings({
-      userId: req.user.fb.id,
-      venueId: req.params.id
+    var user = req.user;
+    var userFBId = 'anonymous';
+    if(user){
+      userFBId: req.user.fb.id
+    }
+
+    var question = new Question({
+      userId: userFBId,
+      text: req.body['question']
     });
 
-    going.save(function (err) {
+    question.save(function (err, question, numAffected) {
        if (err) { return next(err); }
-       Goings
-          .count({'venueId': req.params.id}, function(error, count){
-            res.json(count);
-          })
+       res.json(question);
      });
   }
 
