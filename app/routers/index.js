@@ -14,12 +14,24 @@ module.exports = function(app, passport, myCache){
   app.route('/')
     .get(function(req, res){
 
-      var user = null;
+      var user = 'anonymous';
       if(req.user){
         user = req.user.fb;
       }
 
-      res.render("home", {title: 'asuu.me - Where you can find the answers',user: user});
+      var templateValues = {
+        title: 'asuu.me - Where you can find the answers',
+        user: user
+      }
+
+      questionController.getQuestions(user, function(data){
+        if(data){
+          templateValues['questionsData'] = data;
+        }
+
+        res.render("home", templateValues);
+      })
+
     });
 
   app.route('/questions/:id')

@@ -1,25 +1,28 @@
 'use strict'
 
+var mongoose = require('mongoose');
+var request =  require("request");
+
 var Users = require('../models/users.js');
 var Answer = require('../models/answer.js');
 var Question = require('../models/question.js');
-var mongoose = require('mongoose');
-var request =  require("request");
+var GeneralHelper = require("../helpers/generalHelper.js");
+
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 function QuestionController(myCache){
 
-  this.addQuestion = function(req, res, next){
+  var utils = new GeneralHelper();
 
-    console.log("addQuestion");
-    console.log(req.query);
-    console.log(req.params);
+  this.addQuestion = function(req, res, next){
 
     var user = req.user;
     var userFBId = 'anonymous';
     if(user){
       userFBId: req.user.fb.id
     }
+
+    utils.log(userFBId, "Adding question: "+req.query['question']);
 
     var question = new Question({
       userId: userFBId,
@@ -32,27 +35,22 @@ function QuestionController(myCache){
      });
   }
 
-// Get near and recommended watering holes from the Foursquare
-  this.getQuestions = function(req, res){
+// Get questions
+  this.getQuestions = function(user, callback){
 
-    getQuestions(function(err, data){
-      if(err){
-        return res.json(err);
-      }
+    Question
+      .find({}, {}, function(err, questionsData){
+        if(err){
+          console.log("err in getQuestions: ");
+          console.error(err);
 
-      return res.json(buildSuccessRes(data));
-    });
+          utils.error(user, "Error while getting questions: ", err);
+          callback(null);
+        }
 
-    function getQuestions(callback){
-      Question
-        .find({}, {}, function(err, goingsData){
-            // console.log("goingsData");
-            // console.log(goingsData);
-
-            callback(err, goingsData);
-        });
-    }
-
+        utils.log(user, "Questions", questionsData);
+        callback(questionsData);
+      });
   }
 
 }
