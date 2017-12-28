@@ -1,10 +1,11 @@
 'use strict'
 
-const { check, body, validationResult } = require('express-validator/check');
+const { check, body, query, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
+var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
 module.exports = function(app, passport, myCache){
 
@@ -56,10 +57,27 @@ module.exports = function(app, passport, myCache){
   //   .get(placeController.getPlaceImage);
   //
 
-  app.route('/question/add', [
-      body('question').exists()
-    ])
-    .post(questionController.addQuestion);
+  app.post('/question/add', [
+      query('question').exists()
+    ], (req, res, next) => {
+      try {
+        validationResult(req).throw();
+        questionController.addQuestion(req, res, next)
+      } catch (err) {
+        res.status(400).json(ResultConstants[400]);
+      }
+    });
+
+  app.get('/question', [
+      query('question').exists()
+    ], (req, res, next) => {
+      try {
+        validationResult(req).throw();
+        questionController.addQuestion(req, res, next)
+      } catch (err) {
+        res.status(400).json(ResultConstants[400]);
+      }
+    });
 
   function isLoggedIn(req, res, next){
 
