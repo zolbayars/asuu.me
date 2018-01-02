@@ -1,11 +1,13 @@
 'use strict'
 
+var timeago = require("timeago.js");
 const { check, body, query, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
+var GeneralHelper = require(process.cwd() + "/app/helpers/generalHelper.js");
 
 module.exports = function(app, passport, myCache){
 
@@ -19,9 +21,16 @@ module.exports = function(app, passport, myCache){
         user = req.user.fb;
       }
 
+      var utils = new GeneralHelper();
+      var localTimeAgo = utils.getTimeAgoMNLocale();
+      // console.log(localTimeAgo);
+
+      timeago.register('mn', localTimeAgo);
+
       var templateValues = {
         title: 'asuu.me - Where you can find the answers',
-        user: user
+        user: user,
+        timeagoInstance: timeago()
       }
 
       questionController.getQuestions(user, function(data){

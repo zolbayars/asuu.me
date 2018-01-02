@@ -14,12 +14,14 @@
 
       <div class="starter-template">
         <h1><%= __('Find the answer')%></h1>
-        <div class="lead input-group">
-          <input class="form-control form-control-lg" type="text" placeholder="<%= __('Ask your question')%>" aria-label="<%= __('Ask your question')%>">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button"><%= __('Ask')%></button>
-          </span>
-        </div>
+        <form id="ask-quick-question-form">
+          <div class="lead input-group">
+            <input id="quick-question-input" class="form-control form-control-lg" type="text" placeholder="<%= __('Ask your question')%>" aria-label="<%= __('Ask your question')%>">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button"><%= __('Ask')%></button>
+            </span>
+          </div>
+        </form>
 
       </div>
 
@@ -31,10 +33,10 @@
                   <a href="/questions/<%= questionsData[i]._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1"><%= questionsData[i].text %></h5>
-                      <small><%= questionsData[i].createdDate %></small>
+                      <small><%= timeagoInstance.format(questionsData[i].createdDate, 'mn') %></small>
                     </div>
                     <!-- <p class="mb-1"></p> -->
-                    <small><%= questionsData[i].userId %></small>
+                    <small id="question-date"><%= questionsData[i].userId %></small>
                   </a>
                 <% } %>
 
@@ -54,5 +56,6 @@
 
     <%- include('partials/footer') %>
     <%- include('partials/embedded-scripts') %>
+    <script src="/controllers/questionController.client.js"></script>
   </body>
 </html>

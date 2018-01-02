@@ -47,7 +47,7 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        utils.log(user, "Questions", questionsData);
+        // utils.log(user, "Questions", questionsData);
         callback(questionsData);
       });
   }

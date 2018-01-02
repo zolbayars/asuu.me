@@ -2,18 +2,11 @@
 
 (function(){
 
-  var itemsInRow = 3;
-
-  if(lastSearchTermData){
-    // console.log("lastSearchTermData: ");
-    // console.log(lastSearchTermData);
-
-    getPlaces();
-  }
-
-  $("#venue-search-form").submit(function(event){
+  $("#ask-quick-question-form").submit(function(event){
     event.preventDefault();
-    getPlaces();
+    console.log($('#quick-question-input').val());
+
+
   });
 
 //Get recommended places -> backend -> Foursquare API

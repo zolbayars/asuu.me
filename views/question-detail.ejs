@@ -37,14 +37,16 @@
 
           <% } %>
 
-          <nav class="blog-pagination">
-            <div class="row load-more-container">
-              <div class="col-lg-12">
-                <button type="button" class="btn btn-outline-primary btn-lg btn-block">Load more answers</button>
-              </div>
-            </div>
-          </nav>
 
+          <% if(questionData.answers != null && questionData.answers.length > 10 ){ %>
+            <nav class="blog-pagination">
+              <div class="row load-more-container">
+                <div class="col-lg-12">
+                  <button type="button" class="btn btn-outline-primary btn-lg btn-block">Load more answers</button>
+                </div>
+              </div>
+            </nav>
+          <% } %>
           <hr class="answer-divider">
           <h4>Your Answer</h4>
 
