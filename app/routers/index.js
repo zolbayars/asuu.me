@@ -36,7 +36,25 @@ module.exports = function(app, passport, myCache){
 
   app.route('/questions/:id')
     .get(function(req, res){
-      res.render("question-detail", {title: 'Question'});
+
+      var user = 'anonymous';
+      if(req.user){
+        user = req.user.fb;
+      }
+
+      var templateValues = {
+        user: user
+      }
+
+      questionController.getQuestionByID(req.params.id, function(data){
+        if(data){
+          templateValues['questionData'] = data,
+          templateValues['title'] = data.text
+        }
+
+        res.render("question-detail", templateValues);
+      })
+
     });
 
   app.route('/user/:id')

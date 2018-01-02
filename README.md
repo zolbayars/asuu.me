@@ -11,7 +11,7 @@ We're still developing it and here's the list of features we should implement be
 
 #### v1.0
 * Basic Q&A for anonymous, and signed in users
-* Show list of questions on the homepage
+* Show list of questions on the homepage -> OK
 * Question detail page
   * Upvote, Downvote the question  
   * Writing an answer

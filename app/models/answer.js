@@ -13,7 +13,9 @@ var Answer = new Schema({
   createdDate: {
     type: Date,
     default: Date.now
-  }
+  },
+  votes: Number,
+  comments: []
 });
 
 module.exports = mongoose.model('Answer', Answer);

@@ -35,7 +35,6 @@ function QuestionController(myCache){
      });
   }
 
-// Get questions
   this.getQuestions = function(user, callback){
 
     Question
@@ -51,6 +50,28 @@ function QuestionController(myCache){
         utils.log(user, "Questions", questionsData);
         callback(questionsData);
       });
+  }
+
+  // Get a question by its ID
+  this.getQuestionByID = function(questionId, callback){
+
+    var query = Question.where({ _id: questionId });
+    console.log("Query:");
+    console.log(questionId);
+    query.findOne(function(err, question){
+      if(err){
+        console.log("err in getQuestions: ");
+        console.error(err);
+
+        utils.error(user, "Error while getting questions: ", err);
+        callback(null);
+      }
+
+      if(question){
+        callback(question);
+      }
+    });
+
   }
 
 }
