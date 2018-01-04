@@ -97,7 +97,7 @@ module.exports = function(app, passport, myCache){
   //
 
   app.post('/question/add', [
-      query('question').exists()
+      check('question').exists()
     ], (req, res, next) => {
       try {
         validationResult(req).throw();

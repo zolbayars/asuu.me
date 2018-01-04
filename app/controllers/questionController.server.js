@@ -26,7 +26,7 @@ function QuestionController(myCache){
 
     var question = new Question({
       userId: userFBId,
-      text: req.query['question']
+      text: req.body['question']
     });
 
     question.save(function (err, question, numAffected) {
@@ -49,7 +49,8 @@ function QuestionController(myCache){
 
         // utils.log(user, "Questions", questionsData);
         callback(questionsData);
-      });
+      })
+      .sort({createdDate: -1});
   }
 
   // Get a question by its ID

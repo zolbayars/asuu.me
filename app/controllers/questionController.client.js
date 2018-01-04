@@ -4,10 +4,21 @@
 
   $("#ask-quick-question-form").submit(function(event){
     event.preventDefault();
-    console.log($('#quick-question-input').val());
-
+    addQuickQuestion($('#quick-question-input').val(), function(response){
+      console.log(response);
+    });
 
   });
+
+  function addQuickQuestion(questionText, callback){
+    console.log(questionText);
+    $.ajax({
+      type: 'POST',
+      url: '/question/add',
+      data: { question: questionText },
+      success: callback,
+    });
+  }
 
 //Get recommended places -> backend -> Foursquare API
   function getPlaces(){
@@ -142,20 +153,7 @@
     });
   }
 
-  function sendGoingReq(method, btnId, callback){
-    $.ajax({
-      type: method,
-      url: '/places/going/'+ btnId,
-      data: {},
-      success: function(response) {
-        if(response.result_code == 800){
-          window.location = response.result_redirect_url;
-        }else{
-          callback(response);
-        }
-      },
-    });
-  }
+
 
 
 //Goings count for this place and whether did I click on it
