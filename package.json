@@ -23,5 +23,8 @@
     "passport-facebook": "^2.1.1",
     "request": "^2.83.0",
     "timeago.js": "^3.0.2"
+  },
+  "devDependencies": {
+    "loaders.css": "^0.1.2"
   }
 }
