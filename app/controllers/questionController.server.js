@@ -7,6 +7,7 @@ var Users = require('../models/users.js');
 var Answer = require('../models/answer.js');
 var Question = require('../models/question.js');
 var GeneralHelper = require("../helpers/generalHelper.js");
+var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -16,13 +17,15 @@ function QuestionController(myCache){
 
   this.addQuestion = function(req, res, next){
 
+    var result = ResultConstants.UNDEFINED_ERROR;
+
     var user = req.user;
     var userFBId = 'anonymous';
     if(user){
       userFBId: req.user.fb.id
     }
 
-    utils.log(userFBId, "Adding question: "+req.query['question']);
+    utils.log(userFBId, "Adding question: "+req.body['question']);
 
     var question = new Question({
       userId: userFBId,
@@ -30,8 +33,22 @@ function QuestionController(myCache){
     });
 
     question.save(function (err, question, numAffected) {
-       if (err) { return next(err); }
-       res.json(question);
+       if (err) {
+        result = ResultConstants.DB_ERROR_WHILE_SAVING;
+        utils.error(userFBId, "Error while saving question", err);
+        return res.json(result);
+       }
+
+       result = ResultConstants.SUCCESS;
+       utils.log(userFBId, "Before before Returning result", result);
+       result = utils.getSuccessTemplate(result);
+       utils.log(userFBId, "Before Returning result", result);
+
+       result['question'] = question;
+
+       utils.log(userFBId, "Returning result", result);
+
+       res.json(result);
      });
   }
 

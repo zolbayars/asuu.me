@@ -5,12 +5,12 @@ function GeneralHelper() {
     this.log = function(tag, msg, obj = null){
       var objToPrint = obj != null ? ": " + JSON.stringify(obj) : "";
       console.log(new Date() + " " + tag + ": " + msg + objToPrint);
-    }
+    };
 
     this.error = function(tag, msg, obj = null){
       var objToPrint = obj != null ? ": " + JSON.stringify(obj) : "";
       console.error(new Date() + " " + tag + ": " + msg + objToPrint);
-    }
+    };
 
     this.getTimeAgoMNLocale = function(){
       return function(number, index, total_sec){
@@ -34,7 +34,20 @@ function GeneralHelper() {
             ['%s years ago', '%s жилийн өмнө']
           ][index];
       }
-    }
+    };
+
+    this.getSuccessTemplate = function(template){
+
+      // Ингэлгүйгээр шууд утгыг нь оноох үед ref -ээрээ давхар солигдоод байгаа
+      Object.keys(template).forEach(function(element){
+        if(element != 'result_code' && element != 'result_msg'){
+          template[element] = undefined;
+        }
+      });
+
+      return template;
+
+    };
 }
 
 module.exports = GeneralHelper;
