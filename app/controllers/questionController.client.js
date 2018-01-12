@@ -11,7 +11,10 @@
       $("#ask-btn-text").hide();
       $("#ask-btn-loader").show();
 
-      addQuickQuestion(quickQuestionText.trim(), function(response){
+      addQuickQuestion(quickQuestionText.trim(), function(error){
+
+        showQuestionWarning(error);
+      }, function(response){
         $("#ask-btn-text").show();
         $("#ask-btn-loader").hide();
         console.log(response);
@@ -21,6 +24,7 @@
           showQuestionWarning(response.result_msg);
         }
       });
+
     }else{
       showQuestionWarning("Please enter a valid question");
     }
@@ -32,14 +36,18 @@
     $("#add-question-warning-container").show();
   }
 
-  function addQuickQuestion(questionText, callback){
-    console.log(questionText);
-    $.ajax({
-      type: 'POST',
-      url: '/question/add',
-      data: { question: questionText },
-      success: callback,
+  function addQuickQuestion(questionText, errorCallback, callback){
+
+    var ajaxObj = ajaxCall('POST', { question: questionText }, '/question/add');
+
+    ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
+      return errorCallback(errorThrown);
     });
+
+    ajaxObj.done(function(data){
+      return errorCallback(callback(data));
+    });
+
   }
 
 // A valid question should be consisted with at least 3 words
@@ -116,6 +124,15 @@
         $("#"+ungoingBtnId).hide();
       });
 
+    });
+  }
+
+  function ajaxCall(method, urlString, dataObj){
+    return $.ajax({
+      type: method,
+      url: urlString,
+      dataType: 'json',
+      data: dataObj
     });
   }
 

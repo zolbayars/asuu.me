@@ -30,12 +30,14 @@ module.exports = function(app, passport, myCache){
       var templateValues = {
         title: 'asuu.me - Where you can find the answers',
         user: user,
-        timeagoInstance: timeago()
+        timeagoInstance: timeago(),
+        result_code: 900
       }
 
       questionController.getQuestions(user, function(data){
         if(data){
           templateValues['questionsData'] = data;
+          templateValues['result_code'] = 1000;
         }
 
         res.render("home", templateValues);

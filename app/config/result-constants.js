@@ -3,6 +3,10 @@ module.exports = {
     result_code: 1000,
     result_msg: "Амжилттай",
   },
+  SUCCESS_IN_CHANGE: {
+    result_code: 0,
+    result_msg: "Амжилттай өөрчлөгдсөн",
+  },
   UNDEFINED_ERROR: {
     result_code: 900,
     result_msg: "Undefined error has occured",

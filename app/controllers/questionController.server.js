@@ -39,7 +39,7 @@ function QuestionController(myCache){
         return res.json(result);
        }
 
-       result = ResultConstants.SUCCESS;
+       result = ResultConstants.SUCCESS_IN_CHANGE;
        utils.log(userFBId, "Before before Returning result", result);
        result = utils.getSuccessTemplate(result);
        utils.log(userFBId, "Before Returning result", result);
@@ -48,7 +48,8 @@ function QuestionController(myCache){
 
        utils.log(userFBId, "Returning result", result);
 
-       res.json(result);
+       res.render("partials/questions-list", result);
+       // res.json(result);
      });
   }
 
