@@ -12,9 +12,10 @@ We're still developing it and here's the list of features we should implement be
 #### v1.0
 * Basic Q&A for anonymous, and signed in users
   * Quick question
-    * When question was added, show it on top of the list (or reload the list)
-    * Show alert when the question was added successfully
-    * Clear Input after question was added
+    * When question was added, show it on top of the list (or reload the list) -> OK
+    * Show alert when the question was added successfully -> OK
+    * Clear Input after question was added -> OK
+    * Fix multiple alerts when questions added after one another
   * Add detailed question form
   * Detailed question
     * Basic form with following functionalities and fields:
