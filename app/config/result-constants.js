@@ -1,11 +1,7 @@
 module.exports = {
   SUCCESS: {
     result_code: 1000,
-    result_msg: "Амжилттай",
-  },
-  SUCCESS_IN_CHANGE: {
-    result_code: 0,
-    result_msg: "Амжилттай өөрчлөгдсөн",
+    result_msg: "Success",
   },
   UNDEFINED_ERROR: {
     result_code: 900,

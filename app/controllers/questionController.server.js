@@ -15,41 +15,31 @@ function QuestionController(myCache){
 
   var utils = new GeneralHelper();
 
-  this.addQuestion = function(req, res, next){
+  this.addQuestion = function(user, questionData, callback){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
-    var user = req.user;
-    var userFBId = 'anonymous';
-    if(user){
-      userFBId: req.user.fb.id
-    }
-
-    utils.log(userFBId, "Adding question: "+req.body['question']);
+    utils.log(user, "Adding question", questionData);
 
     var question = new Question({
-      userId: userFBId,
-      text: req.body['question']
+      userId: user,
+      text: questionData
     });
 
     question.save(function (err, question, numAffected) {
        if (err) {
         result = ResultConstants.DB_ERROR_WHILE_SAVING;
-        utils.error(userFBId, "Error while saving question", err);
-        return res.json(result);
+        utils.error(user, "Error while saving question", err);
+        return callback(result);
        }
 
-       result = ResultConstants.SUCCESS_IN_CHANGE;
-       utils.log(userFBId, "Before before Returning result", result);
+       result = ResultConstants.SUCCESS;
        result = utils.getSuccessTemplate(result);
-       utils.log(userFBId, "Before Returning result", result);
-
        result['question'] = question;
 
-       utils.log(userFBId, "Returning result", result);
+       utils.log(user, "Returning result", result);
 
-       res.render("partials/questions-list", result);
-       // res.json(result);
+       return callback(result);
      });
   }
 

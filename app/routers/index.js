@@ -41,7 +41,7 @@ module.exports = function(app, passport, myCache){
         }
 
         res.render("home", templateValues);
-      })
+      });
 
     });
 
@@ -101,10 +101,36 @@ module.exports = function(app, passport, myCache){
   app.post('/question/add', [
       check('question').exists()
     ], (req, res, next) => {
+
       try {
         validationResult(req).throw();
-        questionController.addQuestion(req, res, next)
+
+        var user = 'anonymous';
+        if(req.user){
+          user = req.user.fb;
+        }
+
+        var utils = new GeneralHelper();
+        var localTimeAgo = utils.getTimeAgoMNLocale();
+        timeago.register('mn', localTimeAgo);
+
+        var templateValues = {
+          user: user,
+          timeagoInstance: timeago(),
+          result_code: 900
+        }
+
+        questionController.addQuestion(user, req.body['question'], function(result){
+          if(result){
+            templateValues = result;
+            templateValues['timeagoInstance'] = timeago(); 
+          }
+
+          res.render("partials/question-in-list", templateValues);
+        });
+
       } catch (err) {
+        console.error(err);
         res.status(400).json(ResultConstants[400]);
       }
     });

@@ -12,26 +12,28 @@
       $("#ask-btn-loader").show();
 
       addQuickQuestion(quickQuestionText.trim(), function(error){
-
-        showQuestionWarning(error);
+        if(error){
+          $("#ask-btn-text").show();
+          $("#ask-btn-loader").hide();
+          showQuestionWarning(error);
+        }
       }, function(response){
         $("#ask-btn-text").show();
+        $("#quick-question-input").val('');
         $("#ask-btn-loader").hide();
-        console.log(response);
-        if(response.result_code == 1000){
 
-        }else{
-          showQuestionWarning(response.result_msg);
-        }
+        $("#question-list-container").prepend(response);
       });
 
     }else{
+      console.log("called from else");
       showQuestionWarning("Please enter a valid question");
     }
 
   });
 
   function showQuestionWarning(msg){
+    console.log("warning called");
     $("#add-question-warning").text(msg);
     $("#add-question-warning-container").show();
   }
@@ -41,6 +43,9 @@
     var ajaxObj = ajaxCall('POST', { question: questionText }, '/question/add');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
+      console.error(textStatus);
+      console.error(errorThrown);
+      console.error(jqXHR);
       return errorCallback(errorThrown);
     });
 
@@ -127,11 +132,10 @@
     });
   }
 
-  function ajaxCall(method, urlString, dataObj){
+  function ajaxCall(method, dataObj, urlString){
     return $.ajax({
       type: method,
       url: urlString,
-      dataType: 'json',
       data: dataObj
     });
   }
