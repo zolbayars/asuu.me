@@ -11,27 +11,29 @@ We're still developing it and here's the list of features we should implement be
 
 #### v1.0
 * Basic Q&A for anonymous, and signed in users
-  * Quick question
+  * Quick question -> OK
     * When question was added, show it on top of the list (or reload the list) -> OK
     * Show alert when the question was added successfully -> OK
     * Clear Input after question was added -> OK
     * Fix multiple alerts when questions added after one another -> OK
-    * This feature for Signed-in users
 * Show list of questions on the homepage -> OK
 * Question detail page
-  * Upvote, Downvote the question  
   * Writing an answer -> OK
-  * Related questions
-  * Upvote, Downvote an answer
-  * If not anonymous, the user information for (question, answer, comment)
-* User ranks
-  * Users can accumulate points by answering question
+  * Related questions -> OK
 * SEO
   * Save slugs in question
   * Show question detail page with its slug
-  * Do optimization on home and question detail page 
+  * Do optimization on home and question detail page
 
 #### v1.1
+* Save question view count
+* Quick question for Signed-in users
+* Upvote, Downvote the question (when logged in)
+* Upvote, Downvote an answer (when logged in)
+* Show vote, view, answer count in home
+* User ranks
+  * Users can accumulate points by answering question
+* If not anonymous, the user information for (question, answer, comment) in question detail page
 * Detailed question form
   * Basic form with following functionalities and fields:
     * Title
