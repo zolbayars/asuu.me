@@ -14,7 +14,10 @@ var Answer = new Schema({
     type: Date,
     default: Date.now
   },
-  votes: Number,
+  point: {
+    type: Number,
+    default: 0
+  },
   comments: []
 });
 

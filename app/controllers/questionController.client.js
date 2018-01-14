@@ -21,7 +21,7 @@
         $("#ask-btn-text").show();
         $("#quick-question-input").val('');
         $("#ask-btn-loader").hide();
-
+        $("#add-question-result-warning-container").remove(); 
         $("#question-list-container").prepend(response);
       });
 

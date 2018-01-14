@@ -6,12 +6,14 @@ const { matchedData, sanitize } = require('express-validator/filter');
 
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
+var AnswerController = require(process.cwd() + "/app/controllers/answerController.server.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 var GeneralHelper = require(process.cwd() + "/app/helpers/generalHelper.js");
 
 module.exports = function(app, passport, myCache){
 
   var questionController = new QuestionController(myCache);
+  var answerController = new AnswerController(myCache);
 
   app.route('/')
     .get(function(req, res){
@@ -53,18 +55,30 @@ module.exports = function(app, passport, myCache){
         user = req.user.fb;
       }
 
+      var utils = new GeneralHelper();
+      var localTimeAgo = utils.getTimeAgoMNLocale();
+      timeago.register('mn', localTimeAgo);
+
       var templateValues = {
-        user: user
+        user: user,
+        timeagoInstance: timeago()
       }
 
       questionController.getQuestionByID(req.params.id, function(data){
         if(data){
           templateValues['questionData'] = data,
           templateValues['title'] = data.text
+
+          questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
+            if(relatedQuestions){
+              templateValues['relatedQuestions'] = relatedQuestions,
+              res.render("question-detail", templateValues);
+            }
+          });
         }
 
-        res.render("question-detail", templateValues);
-      })
+
+      });
 
     });
 
@@ -97,6 +111,43 @@ module.exports = function(app, passport, myCache){
   // app.route('/places/photo/:id')
   //   .get(placeController.getPlaceImage);
   //
+  app.post('/answer/add', [
+      check('question').exists(),
+      check('text').exists()
+    ], (req, res, next) => {
+
+      try {
+        validationResult(req).throw();
+
+        var user = 'anonymous';
+        if(req.user){
+          user = req.user.fb;
+        }
+
+        var utils = new GeneralHelper();
+        var localTimeAgo = utils.getTimeAgoMNLocale();
+        timeago.register('mn', localTimeAgo);
+
+        var templateValues = {
+          user: user,
+          timeagoInstance: timeago(),
+          result_code: 900
+        }
+
+        answerController.addAnswer(user, req.body, function(result){
+          if(result){
+            templateValues = result;
+            templateValues['timeagoInstance'] = timeago();
+          }
+
+          res.render("partials/answer-in-list", templateValues);
+        });
+
+      } catch (err) {
+        console.error(err);
+        res.status(400).json(ResultConstants[400]);
+      }
+    });
 
   app.post('/question/add', [
       check('question').exists()
@@ -123,7 +174,7 @@ module.exports = function(app, passport, myCache){
         questionController.addQuestion(user, req.body['question'], function(result){
           if(result){
             templateValues = result;
-            templateValues['timeagoInstance'] = timeago(); 
+            templateValues['timeagoInstance'] = timeago();
           }
 
           res.render("partials/question-in-list", templateValues);

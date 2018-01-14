@@ -15,25 +15,25 @@ We're still developing it and here's the list of features we should implement be
     * When question was added, show it on top of the list (or reload the list) -> OK
     * Show alert when the question was added successfully -> OK
     * Clear Input after question was added -> OK
-    * Fix multiple alerts when questions added after one another
-  * Add detailed question form
-  * Detailed question
-    * Basic form with following functionalities and fields:
-      * Title
-      * Question body
-        * Markdown
-      * Tag
-        * Auto completion
+    * Fix multiple alerts when questions added after one another -> OK
 * Show list of questions on the homepage -> OK
 * Question detail page
   * Upvote, Downvote the question  
-  * Writing an answer
+  * Writing an answer -> OK
+  * Related questions 
   * Upvote, Downvote an answer
   * If not anonymous, the user information for (question, answer, comment)
 * User ranks
   * Users can accumulate points by answering question
 
 #### v1.1
+* Detailed question form
+  * Basic form with following functionalities and fields:
+    * Title
+    * Question body
+      * Markdown
+    * Tag
+      * Auto completion
 * Question detail page
   * Writing a comment on an answer
   * Upvote, Downvote a comment

@@ -1,0 +1,11 @@
+<div id="answer-list-container">
+  <% if(questionData.answers != null && questionData.answers.length > 0 ){ %>
+    <% for (var i = questionData.answers.length - 1; i >= 0 ; i--) { %>
+      <hr>
+      <div class="blog-post">
+        <p><%= questionData.answers[i].text %></p>
+        <p class="blog-post-meta"><%= timeagoInstance.format(questionData.answers[i].createdDate, 'mn') %> by <a href="#"><%= questionData.answers[i].userId %></a></p>
+      </div>
+    <% } %>
+  <% } %>
+</div>
