@@ -16,15 +16,20 @@ We're still developing it and here's the list of features we should implement be
     * Show alert when the question was added successfully -> OK
     * Clear Input after question was added -> OK
     * Fix multiple alerts when questions added after one another -> OK
+    * This feature for Signed-in users
 * Show list of questions on the homepage -> OK
 * Question detail page
   * Upvote, Downvote the question  
   * Writing an answer -> OK
-  * Related questions 
+  * Related questions
   * Upvote, Downvote an answer
   * If not anonymous, the user information for (question, answer, comment)
 * User ranks
   * Users can accumulate points by answering question
+* SEO
+  * Save slugs in question
+  * Show question detail page with its slug
+  * Do optimization on home and question detail page 
 
 #### v1.1
 * Detailed question form
