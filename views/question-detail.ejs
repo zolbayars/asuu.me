@@ -17,14 +17,23 @@
         <div class="col-sm-8 blog-main">
 
           <div id="question-info-container" class="blog-post" data-qid="">
+
             <h2 class="blog-post-title"><%= questionData.text %></h2>
-            <p class="blog-post-meta"><%= timeagoInstance.format(questionData.createdDate, 'mn') %> by <a href="/user/<%= questionData.userId %>"><%= questionData.userId %></a></p>
+            <p class="blog-post-meta">
+              <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
+              <a href="/user/<%= questionData.userId %>"><%= questionData.userId %></a>
+              (<%= questionData.views %> views)``
+            </p>
 
             <p><%= questionData.textDetail %></p>
-
+            
+            <div class="question-operation-container">
+              <img src="/public/images/thumbs_up.png" >
+              <img src="/public/images/thumbs_down.png">
+            </div>
           </div><!-- /.blog-post -->
 
-          <h4><%= questionData.answers.length %> answers</h4>
+          <h4><%= questionData.answers.length %> answers </h4>
 
           <%- include('partials/answer-list') %>
 

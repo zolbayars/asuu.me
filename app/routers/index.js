@@ -47,7 +47,7 @@ module.exports = function(app, passport, myCache){
 
     });
 
-  app.route('/questions/:id')
+  app.route('/questions/:id/:slug')
     .get(function(req, res){
 
       var user = 'anonymous';
@@ -67,7 +67,7 @@ module.exports = function(app, passport, myCache){
       questionController.getQuestionByID(req.params.id, function(data){
         if(data){
           templateValues['questionData'] = data,
-          templateValues['title'] = data.text
+          templateValues['title'] = data.text + " - asuu.me"
 
           questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
             if(relatedQuestions){

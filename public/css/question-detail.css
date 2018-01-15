@@ -66,3 +66,11 @@
   margin-bottom: 1.25rem;
   color: #999;
 }
+
+.question-operation-container {
+  text-align: right;
+}
+
+.question-operation-container img {
+  width: 30px;
+}

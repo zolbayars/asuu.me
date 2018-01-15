@@ -12,9 +12,16 @@ var Question = new Schema({
   textDetail: {
     type: String
   },
+  slug: {
+    type: String
+  },
   createdDate: {
     type: Date,
     default: Date.now
+  },
+  views: {
+    type: Number,
+    default: 0
   },
   tags: [],
   votes: Number,

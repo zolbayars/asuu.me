@@ -14,6 +14,7 @@ function QuestionController(myCache){
 
   var utils = new GeneralHelper();
 
+  // Saving a question
   this.addQuestion = function(user, questionData, callback){
 
     var result = ResultConstants.UNDEFINED_ERROR;
@@ -22,7 +23,8 @@ function QuestionController(myCache){
 
     var question = new Question({
       userId: user,
-      text: questionData
+      text: questionData,
+      slug: genSlug(questionData)
     });
 
     question.save(function (err, question, numAffected) {
@@ -42,6 +44,7 @@ function QuestionController(myCache){
      });
   }
 
+  // Get all questions
   this.getQuestions = function(user, callback){
 
     Question
@@ -74,12 +77,16 @@ function QuestionController(myCache){
       }
 
       if(question){
+
+        Question.update({ _id: questionId }, { $inc: {views: 1 } }, function(err, raw){
+          if(err) console.error(err);
+        });
+
         callback(question);
       }
     });
 
   }
-
 
   // Get related questions by regex (most of the questions don't have a tag)
   this.getRelatedQuestions = function(questionText, questionId, callback){
@@ -96,6 +103,18 @@ function QuestionController(myCache){
       }).limit(5);
 
     }
+
+  function genSlug(questionText){
+    var splitted = questionText.split(" ");
+    var result = "";
+    splitted.forEach(function(element, index){
+      result = result + element;
+      if(index < splitted.length - 1){
+        result = result + "-";
+      }
+    });
+    return result;
+  }
 }
 
 module.exports = QuestionController;

@@ -21,12 +21,11 @@ We're still developing it and here's the list of features we should implement be
   * Writing an answer -> OK
   * Related questions -> OK
 * SEO
-  * Save slugs in question
-  * Show question detail page with its slug
-  * Do optimization on home and question detail page
+  * Save slugs in question -> OK
+  * Show question detail page with its slug -> OK
 
 #### v1.1
-* Save question view count
+* Save question view count -> OK
 * Quick question for Signed-in users
 * Upvote, Downvote the question (when logged in)
 * Upvote, Downvote an answer (when logged in)
