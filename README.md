@@ -10,19 +10,18 @@ We're still developing it and here's the list of features we should implement be
 ### TODO
 
 #### v1.0
-* Basic Q&A for anonymous, and signed in users
+* Basic Q&A -> OK
   * Quick question -> OK
     * When question was added, show it on top of the list (or reload the list) -> OK
     * Show alert when the question was added successfully -> OK
     * Clear Input after question was added -> OK
     * Fix multiple alerts when questions added after one another -> OK
 * Show list of questions on the homepage -> OK
-* Question detail page
+* Question detail page -> PL
   * Writing an answer -> OK
   * Related questions -> OK
-* SEO
-  * Save slugs in question -> OK
-  * Show question detail page with its slug -> OK
+* Save slugs in question -> OK
+* Show question detail page with its slug -> OK
 
 #### v1.1
 * Save question view count -> OK

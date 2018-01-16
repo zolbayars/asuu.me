@@ -98,15 +98,15 @@ module.exports = function(app, passport, myCache){
       res.redirect('/');
     });
 
-  // app.route('/auth/facebook')
-  //   .get(passport.authenticate('facebook'));
-  //
-  // app.route('/auth/facebook/callback')
-  // 	.get(passport.authenticate('facebook', {
-  // 		successRedirect: '/',
-  // 		failureRedirect: '/login'
-  // 	}));
-  //
+  app.route('/auth/facebook')
+    .get(passport.authenticate('facebook'));
+
+  app.route('/auth/facebook/callback')
+  	.get(passport.authenticate('facebook', {
+  		successRedirect: '/',
+  		failureRedirect: '/login'
+  	}));
+
 
   // app.route('/places/photo/:id')
   //   .get(placeController.getPlaceImage);
@@ -195,6 +195,23 @@ module.exports = function(app, passport, myCache){
       } catch (err) {
         res.status(400).json(ResultConstants[400]);
       }
+    });
+
+  app.get('/question/rate', [
+      query('question-id').exists(),
+      query('is-positive').exists()
+    ], (req, res, next) => {
+      if(req.isAuthenticated()){
+        try {
+          validationResult(req).throw();h
+          questionController.addQuestion(req, res, next)
+        } catch (err) {
+          res.status(400).json(ResultConstants[400]);
+        }
+      }else{
+        res.status(403).json(ResultConstants[403]);
+      }
+
     });
 
   function isLoggedIn(req, res, next){

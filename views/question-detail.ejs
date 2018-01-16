@@ -22,14 +22,14 @@
             <p class="blog-post-meta">
               <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
               <a href="/user/<%= questionData.userId %>"><%= questionData.userId %></a>
-              (<%= questionData.views %> views)``
+              (<%= questionData.views %> views)
             </p>
 
             <p><%= questionData.textDetail %></p>
-            
+
             <div class="question-operation-container">
-              <img src="/public/images/thumbs_up.png" >
-              <img src="/public/images/thumbs_down.png">
+              <img id="question-like" src="/public/images/thumbs_up.png" >
+              <img id="question-dislike" src="/public/images/thumbs_down.png">
             </div>
           </div><!-- /.blog-post -->
 

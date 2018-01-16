@@ -14,5 +14,9 @@ module.exports = {
   400: {
     result_code: 400,
     result_msg: "Invalid parameters",
+  },
+  403: {
+    result_code: 403,
+    result_msg: "Authentication required",
   }
 }

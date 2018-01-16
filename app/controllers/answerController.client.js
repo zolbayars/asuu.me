@@ -33,6 +33,11 @@
 
   });
 
+  $("#question-like").click(function(){
+    console.log("hoho");
+    console.log("<%= user %>");
+  });
+
   function showAnswerWarning(msg){
     $("#add-answer-warning").text(msg);
     $("#add-answer-warning-container").show();
