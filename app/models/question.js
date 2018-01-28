@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Question = new Schema({
-  userId: String,
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
   text: {
     type: String,
     trim: true

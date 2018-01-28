@@ -40,6 +40,7 @@ module.exports = function(app, passport, myCache){
         if(data){
           templateValues['questionsData'] = data;
           templateValues['result_code'] = 1000;
+          // console.log(data);
         }
 
         res.render("home", templateValues);

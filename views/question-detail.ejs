@@ -21,7 +21,15 @@
             <h2 class="blog-post-title"><%= questionData.text %></h2>
             <p class="blog-post-meta">
               <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
-              <a href="/user/<%= questionData.userId %>"><%= questionData.userId %></a>
+              <a href="/user/<%= questionData.userId %>">
+                <small id="question-date">
+                  <% if(questionData.user != null){ %>
+                    <%= questionData.user.fb.displayName %>
+                  <% }else{ %>
+                    anonymous
+                  <% } %>
+                </small>
+              </a>
               (<%= questionData.views %> views)
             </p>
 

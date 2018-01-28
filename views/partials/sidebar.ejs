@@ -3,7 +3,7 @@
   <ol class="list-unstyled">
     <% if(relatedQuestions != null){ %>
       <% for (var i = 0; i < relatedQuestions.length; i++) { %>
-        <li><a href="#"><a href="/questions/<%= relatedQuestions[i]._id %>"><%= relatedQuestions[i].text %></a></li>
+        <li><a href="#"><a href="/questions/<%= relatedQuestions[i]._id %>/<%= relatedQuestions[i].slug %>"><%= relatedQuestions[i].text %></a></li>
 
         <% } %>
     <% } %>
