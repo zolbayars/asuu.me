@@ -25,7 +25,6 @@ var Question = new Schema({
   },
   tags: [],
   votes: Number,
-  answers: [],
   comments: []
 });
 

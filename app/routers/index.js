@@ -113,7 +113,7 @@ module.exports = function(app, passport, myCache){
   //   .get(placeController.getPlaceImage);
   //
   app.post('/answer/add', [
-      check('question').exists(),
+      check('question-id').exists(),
       check('text').exists()
     ], (req, res, next) => {
 

@@ -4,7 +4,14 @@
       <hr>
       <div class="blog-post">
         <p><%= questionData.answers[i].text %></p>
-        <p class="blog-post-meta"><%= timeagoInstance.format(questionData.answers[i].createdDate, 'mn') %> by <a href="#"><%= questionData.answers[i].userId %></a></p>
+        <p class="blog-post-meta"><%= timeagoInstance.format(questionData.answers[i].createdDate, 'mn') %> by
+          <a href="#">
+            <% if(questionData.answers[i].user != null){ %>
+              <%= questionData.answers[i].user.fb.displayName %>
+            <% }else{ %>
+              anonymous
+            <% } %>
+          </a></p>
       </div>
     <% } %>
   <% } %>
