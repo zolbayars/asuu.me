@@ -15,14 +15,22 @@ function QuestionController(myCache){
   var utils = new GeneralHelper();
 
   // Saving a question
-  this.addQuestion = function(user, questionData, callback){
+  this.addQuestion = async function(user, questionData, callback){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
     utils.log(user, "Adding question", questionData);
+    let realUser = null;
+
+    try {
+      realUser = await Users.findOne({ 'fb.id': user.id }).exec();
+    } catch (e) {
+      console.error(e);
+        return result;
+    }
 
     var question = new Question({
-      userId: user,
+      user: realUser ? realUser._id : null,
       text: questionData,
       slug: genSlug(questionData)
     });
@@ -36,6 +44,7 @@ function QuestionController(myCache){
 
        result = ResultConstants.SUCCESS;
        result = utils.getSuccessTemplate(result);
+       question['user'] = realUser;
        result['question'] = question;
 
        utils.log(user, "Returning result", result);
@@ -57,9 +66,10 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        // utils.log(user, "Questions", questionsData);
+        //utils.log(user, "Questions", questionsData);
         callback(questionsData);
       })
+      .populate('user')
       .sort({createdDate: -1});
   }
 
@@ -67,6 +77,8 @@ function QuestionController(myCache){
   this.getQuestionByID = function(questionId, callback){
 
     var query = Question.where({ _id: questionId });
+    var populateQuery = [{path:'user'}, {path:'answers.user' }];
+
     query.findOne(function(err, question){
       if(err){
         console.log("err in getQuestions: ");
@@ -82,9 +94,10 @@ function QuestionController(myCache){
           if(err) console.error(err);
         });
 
+        console.log("question: ",question);
         callback(question);
       }
-    });
+    }).populate(populateQuery);
 
   }
 

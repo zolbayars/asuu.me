@@ -10,5 +10,11 @@
     <small><%= timeagoInstance.format(question.createdDate, 'mn') %></small>
   </div>
   <!-- <p class="mb-1"></p> -->
-  <small id="question-date"><%= question.userId %></small>
+  <small id="question-date">
+    <% if(question.user != null){ %>
+      <%= question.user.fb.displayName %>
+    <% }else{ %>
+      anonymous
+    <% } %>
+  </small>
 </a>

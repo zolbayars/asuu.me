@@ -14,19 +14,31 @@ function AnswerController(myCache){
 
   var utils = new GeneralHelper();
 
-  this.addAnswer = function(user, answerData, callback){
+  this.addAnswer = async function(user, answerData, callback){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
     utils.log(user, "Adding answer", answerData);
 
+    let realUser = null;
+
+    try {
+      realUser = await Users.findOne({ 'fb.id': user.id }).exec();
+    } catch (e) {
+      console.error(e);
+      return result;
+    }
+
     var answer = {
-      userId: user,
+      user: realUser ? realUser._id : null,
       text: answerData.text,
       createdDate: new Date(),
+      questionId: answerData['question-id'], 
       point: 0,
       comments: []
     };
+
+    answer
 
     Question.findByIdAndUpdate(answerData.question,
       { "$push": { "answers": answer } },
@@ -42,6 +54,7 @@ function AnswerController(myCache){
 
           result = ResultConstants.SUCCESS;
           result = utils.getSuccessTemplate(result);
+          answer['user'] = realUser;
           result['answer'] = answer;
 
           utils.log(user, "Returning result", result);

@@ -71,3 +71,11 @@ html {
 .line-scale > div {
   height: 1rem;
 }
+
+.user-info-container {
+  /* margin-left: 10px; */
+}
+
+#search-form {
+   display: inline-block; 
+}

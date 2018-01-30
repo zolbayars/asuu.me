@@ -40,6 +40,7 @@ module.exports = function(app, passport, myCache){
         if(data){
           templateValues['questionsData'] = data;
           templateValues['result_code'] = 1000;
+          // console.log(data);
         }
 
         res.render("home", templateValues);
@@ -112,7 +113,7 @@ module.exports = function(app, passport, myCache){
   //   .get(placeController.getPlaceImage);
   //
   app.post('/answer/add', [
-      check('question').exists(),
+      check('question-id').exists(),
       check('text').exists()
     ], (req, res, next) => {
 

@@ -5,15 +5,37 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Login</a>
-      </li> -->
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search">
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><%= __('Search') %></button>
-    </form>
-    <a href="/auth/facebook"><button id="login-btn-navbar" class="btn btn-outline-light my-2 my-sm-0" style="margin-left: 1%;">Login</button></a>
+    <div class="container-fluid">
+
+      <div class="row justify-content-end">
+        <div >
+          <form id="search-form" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><%= __('Search') %></button>
+          </form>
+
+            <% if(user == 'anonymous'){ %>
+              <a href="/auth/facebook"><button id="login-btn-navbar" class="btn btn-outline-light my-2 my-sm-0">Login</button></a>
+            <% }else{ %>
+
+              <div class="btn-group">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= user.displayName %>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/profile">Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/logout">Sign out</a>
+                </div>
+              </div>
+
+            <% } %>
+        </div>
+      </div>
+
+
+
+
+  </div>
   </div>
 </nav>
