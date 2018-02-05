@@ -5,6 +5,7 @@ var request =  require("request");
 
 var Users = require('../models/users.js');
 var Question = require('../models/question.js');
+var Answer = require('../models/answer.js');
 var GeneralHelper = require("../helpers/generalHelper.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
@@ -29,39 +30,35 @@ function AnswerController(myCache){
       return result;
     }
 
-    var answer = {
+    var answer = new Answer({
       user: realUser ? realUser._id : null,
       text: answerData.text,
       createdDate: new Date(),
-      questionId: answerData['question-id'], 
+      questionId: answerData['question-id'],
       point: 0,
       comments: []
-    };
+    });
 
-    answer
+    try {
+      let answerDBResult = await answer.save();
+      console.log("answerDBResult", answerDBResult);
 
-    Question.findByIdAndUpdate(answerData.question,
-      { "$push": { "answers": answer } },
-      { "new": true, "upsert": true },
-      function (err, question) {
-          if (err){
-            result = ResultConstants.DB_ERROR_WHILE_SAVING;
-            utils.error(user, "Error while saving question", err);
-            return callback(result);
-          }
+      let questionUpdateQuery = (answerData.question,
+        { "$push": { "answers": answerDBResult._id } },
+        { "new": true, "upsert": true });
+      let updateResult = await questionUpdateQuery.exec();
+      console.log("updateResult", updateResult);
 
-          utils.log(user, "Question after updated", question);
+      result = ResultConstants.SUCCESS;
+      result = utils.getSuccessTemplate(result);
+      answer['user'] = realUser;
+      result['answer'] = answer;
 
-          result = ResultConstants.SUCCESS;
-          result = utils.getSuccessTemplate(result);
-          answer['user'] = realUser;
-          result['answer'] = answer;
+    } catch (e) {
+      console.error(e);
+      result = ResultConstants.DB_ERROR_WHILE_SAVING;
+    }
 
-          utils.log(user, "Returning result", result);
-
-          return callback(result);
-      }
-    );
   }
 
 }

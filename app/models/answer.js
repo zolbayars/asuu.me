@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var Answer = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
-  questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
+  question: { type: Schema.Types.ObjectId, ref: 'Question' },
   text: {
     type: String,
     trim: true
