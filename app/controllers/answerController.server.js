@@ -15,7 +15,7 @@ function AnswerController(myCache){
 
   var utils = new GeneralHelper();
 
-  this.addAnswer = async function(user, answerData, callback){
+  this.addAnswer = async function(user, answerData){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
@@ -43,16 +43,16 @@ function AnswerController(myCache){
       let answerDBResult = await answer.save();
       console.log("answerDBResult", answerDBResult);
 
-      let questionUpdateQuery = (answerData.question,
+      let questionUpdateQuery = Question.findByIdAndUpdate(answerData['question-id'],
         { "$push": { "answers": answerDBResult._id } },
         { "new": true, "upsert": true });
+
       let updateResult = await questionUpdateQuery.exec();
       console.log("updateResult", updateResult);
 
-      result = ResultConstants.SUCCESS;
-      result = utils.getSuccessTemplate(result);
-      answer['user'] = realUser;
+      result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
       result['answer'] = answer;
+      return result;
 
     } catch (e) {
       console.error(e);
