@@ -51,7 +51,8 @@ function AnswerController(myCache){
       console.log("updateResult", updateResult);
 
       result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
-      result['answer'] = answer;
+      result['answer'] = answerDBResult;
+      result['answer']['user'] = realUser; 
       return result;
 
     } catch (e) {

@@ -77,7 +77,7 @@ function QuestionController(myCache){
   this.getQuestionByID = function(questionId, callback){
 
     var query = Question.where({ _id: questionId });
-    var populateQuery = [{path:'user'}, {path:'answers' }];
+    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'} }];
 
     query.findOne(function(err, question){
       if(err){
