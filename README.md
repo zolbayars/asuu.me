@@ -10,9 +10,7 @@ We're still developing it and here's the list of features we should in immediate
 ### TODO
 
 #### v1.1
-* User sign in with facebook -> OK
-* Quick question for Signed-in users -> OK
-* redesign upvote and downvote buttons
+* redesign upvote and downvote buttons -> OK
 * Upvote, Downvote the question (when logged in)
 * Upvote, Downvote an answer (when logged in)
 * Show vote, view, answer count in home

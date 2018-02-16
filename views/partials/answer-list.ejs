@@ -2,17 +2,35 @@
   <% if(questionData.answers != null && questionData.answers.length > 0 ){ %>
     <% for (var i = questionData.answers.length - 1; i >= 0 ; i--) { %>
       <hr>
-      <div class="blog-post">
-        <p><%= questionData.answers[i].text %></p>
-        <p class="blog-post-meta"><%= timeagoInstance.format(questionData.answers[i].createdDate, 'mn') %> by
-          <a href="#">
-            <% if(questionData.answers[i].user != null){ %>
-              <%= questionData.answers[i].user.fb.displayName %>
-            <% }else{ %>
-              anonymous
-            <% } %>
-          </a></p>
-      </div>
+
+      <table>
+        <tr>
+          <td class="votecell">
+            <div class="vote">
+              <a href="#" class="vote-button top"><img src="/public/images/chevron-top.svg"/></a>
+              <span class="vote-count-post">5</span>
+              <a href="#" class="vote-button bottom"><img src="/public/images/chevron-bottom.svg"/></a>
+            </div>
+          </td>
+          <td>
+            <div class="blog-post">
+              <p><%= questionData.answers[i].text %></p>
+              <p class="blog-post-meta"><%= timeagoInstance.format(questionData.answers[i].createdDate, 'mn') %> by
+                <a href="#">
+                  <% if(questionData.answers[i].user != null){ %>
+                    <%= questionData.answers[i].user.fb.displayName %>
+                  <% }else{ %>
+                    anonymous
+                  <% } %>
+                </a></p>
+            </div>
+
+          </td>
+
+        </tr>
+      </table>
+
+
     <% } %>
   <% } %>
 </div>
