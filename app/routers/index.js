@@ -115,7 +115,7 @@ module.exports = function(app, passport, myCache){
   app.post('/answer/add', [
       check('question-id').exists(),
       check('text').exists()
-    ], (req, res, next) => {
+    ], async (req, res, next) => {
 
       try {
         validationResult(req).throw();
@@ -135,14 +135,12 @@ module.exports = function(app, passport, myCache){
           result_code: 900
         }
 
-        answerController.addAnswer(user, req.body, function(result){
-          if(result){
-            templateValues = result;
-            templateValues['timeagoInstance'] = timeago();
-          }
-
+        let answerResult = await answerController.addAnswer(user, req.body);
+        if(answerResult){
+          templateValues = answerResult;
+          templateValues['timeagoInstance'] = timeago();
           res.render("partials/answer-in-list", templateValues);
-        });
+        }
 
       } catch (err) {
         console.error(err);

@@ -17,28 +17,38 @@
         <div class="col-sm-8 blog-main">
 
           <div id="question-info-container" class="blog-post" data-qid="">
-
             <h2 class="blog-post-title"><%= questionData.text %></h2>
-            <p class="blog-post-meta">
-              <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
-              <a href="/user/<%= questionData.userId %>">
-                <small id="question-date">
-                  <% if(questionData.user != null){ %>
-                    <%= questionData.user.fb.displayName %>
-                  <% }else{ %>
-                    anonymous
-                  <% } %>
-                </small>
-              </a>
-              (<%= questionData.views %> views)
-            </p>
+            <hr>
+            <table>
+              <tr>
+                <td class="votecell">
+                  <div class="vote">
+                    <a href="#" class="vote-button"><img src="/public/images/chevron-top.svg"/></a>
+                    <span class="vote-count-post">5</span>
+                    <a href="#" class="vote-button"><img src="/public/images/chevron-bottom.svg"/></a>
+                  </div>
+                </td>
+                <td>
 
-            <p><%= questionData.textDetail %></p>
+                  <p class="blog-post-meta">
+                    <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
+                    <a href="/user/<%= questionData.userId %>">
+                      <small id="question-date">
+                        <% if(questionData.user != null){ %>
+                          <%= questionData.user.fb.displayName %>
+                        <% }else{ %>
+                          anonymous
+                        <% } %>
+                      </small>
+                    </a>
+                    (<%= questionData.views %> views)
+                  </p>
 
-            <div class="question-operation-container">
-              <img id="question-like" src="/public/images/thumbs_up.png" >
-              <img id="question-dislike" src="/public/images/thumbs_down.png">
-            </div>
+                  <p><%= questionData.textDetail %></p>
+                </td>
+
+              </tr>
+            </table>
           </div><!-- /.blog-post -->
 
           <h4><%= questionData.answers.length %> answers </h4>

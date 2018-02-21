@@ -5,6 +5,7 @@ var request =  require("request");
 
 var Users = require('../models/users.js');
 var Question = require('../models/question.js');
+var Answer = require('../models/answer.js');
 var GeneralHelper = require("../helpers/generalHelper.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
@@ -14,7 +15,7 @@ function AnswerController(myCache){
 
   var utils = new GeneralHelper();
 
-  this.addAnswer = async function(user, answerData, callback){
+  this.addAnswer = async function(user, answerData){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
@@ -29,39 +30,36 @@ function AnswerController(myCache){
       return result;
     }
 
-    var answer = {
+    var answer = new Answer({
       user: realUser ? realUser._id : null,
       text: answerData.text,
       createdDate: new Date(),
-      questionId: answerData['question-id'], 
+      questionId: answerData['question-id'],
       point: 0,
       comments: []
-    };
+    });
 
-    answer
+    try {
+      let answerDBResult = await answer.save();
+      console.log("answerDBResult", answerDBResult);
 
-    Question.findByIdAndUpdate(answerData.question,
-      { "$push": { "answers": answer } },
-      { "new": true, "upsert": true },
-      function (err, question) {
-          if (err){
-            result = ResultConstants.DB_ERROR_WHILE_SAVING;
-            utils.error(user, "Error while saving question", err);
-            return callback(result);
-          }
+      let questionUpdateQuery = Question.findByIdAndUpdate(answerData['question-id'],
+        { "$push": { "answers": answerDBResult._id } },
+        { "new": true, "upsert": true });
 
-          utils.log(user, "Question after updated", question);
+      let updateResult = await questionUpdateQuery.exec();
+      console.log("updateResult", updateResult);
 
-          result = ResultConstants.SUCCESS;
-          result = utils.getSuccessTemplate(result);
-          answer['user'] = realUser;
-          result['answer'] = answer;
+      result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
+      result['answer'] = answerDBResult;
+      result['answer']['user'] = realUser; 
+      return result;
 
-          utils.log(user, "Returning result", result);
+    } catch (e) {
+      console.error(e);
+      result = ResultConstants.DB_ERROR_WHILE_SAVING;
+    }
 
-          return callback(result);
-      }
-    );
   }
 
 }

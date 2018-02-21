@@ -77,5 +77,45 @@ html {
 }
 
 #search-form {
-   display: inline-block; 
+   display: inline-block;
+}
+
+.votecell {
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.votecell .vote {
+    min-width: 46px;
+}
+
+.vote {
+    text-align: center;
+}
+
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off {
+    height: 30px;
+}
+
+.vote-button {
+  display: block;
+}
+
+.vote-button img {
+  width: 50%;
+}
+
+.vote-count-post {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+}
+
+.vote-button .top img {
+  margin: 0 0 10px 0;
+}
+
+.vote-button .bottom img {
+  margin: 10px 0 0 0;
 }

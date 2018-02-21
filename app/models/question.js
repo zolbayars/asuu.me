@@ -23,6 +23,7 @@ var Question = new Schema({
     type: Number,
     default: 0
   },
+  answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
   tags: [],
   votes: Number,
   comments: []

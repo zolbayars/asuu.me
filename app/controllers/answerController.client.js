@@ -45,7 +45,8 @@
 
   function addQuickAnswer(questionId, answerText, errorCallback, callback){
 
-    var ajaxObj = ajaxCall('POST', { question: questionId, text:  answerText}, '/answer/add');
+    console.log(answerText);
+    var ajaxObj = ajaxCall('POST', { 'question-id': questionId, 'text': answerText}, '/answer/add');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
       console.error(textStatus);
