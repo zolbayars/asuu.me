@@ -5,6 +5,7 @@ var request =  require("request");
 
 var Users = require('../models/users.js');
 var Question = require('../models/question.js');
+var Vote = require('../models/vote.js');
 var GeneralHelper = require("../helpers/generalHelper.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
@@ -77,7 +78,7 @@ function QuestionController(myCache){
   this.getQuestionByID = function(questionId, callback){
 
     var query = Question.where({ _id: questionId });
-    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'} }];
+    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'} }, {path:'votes'}];
 
     query.findOne(function(err, question){
       if(err){

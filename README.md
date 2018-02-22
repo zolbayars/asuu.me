@@ -27,4 +27,4 @@ We're still developing it and here's the list of features we should in immediate
 * Question detail page
   * Writing a comment on an answer
   * Upvote, Downvote a comment
-  * Number of views the question got
+  * Number of views the question got -> OK

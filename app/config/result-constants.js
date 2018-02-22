@@ -11,6 +11,10 @@ module.exports = {
     result_code: 901,
     result_msg: "An error occured while saving",
   },
+  NEED_TO_LOGIN: {
+    result_code: 902,
+    result_msg: "You should login",
+  },
   400: {
     result_code: 400,
     result_msg: "Invalid parameters",

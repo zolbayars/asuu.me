@@ -14,7 +14,8 @@ var Answer = new Schema({
     type: Date,
     default: Date.now
   },
-  point: {
+  votes: [{ type: Schema.Types.ObjectId, ref: 'Vote' }],
+  voteSum: {
     type: Number,
     default: 0
   },

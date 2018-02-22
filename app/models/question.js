@@ -25,7 +25,11 @@ var Question = new Schema({
   },
   answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
   tags: [],
-  votes: Number,
+  votes: [{ type: Schema.Types.ObjectId, ref: 'Vote' }],
+  voteSum: {
+    type: Number,
+    default: 0
+  },
   comments: []
 });
 

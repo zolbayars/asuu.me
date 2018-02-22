@@ -7,6 +7,7 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
 var AnswerController = require(process.cwd() + "/app/controllers/answerController.server.js");
+var VoteController = require(process.cwd() + "/app/controllers/voteController.server.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 var GeneralHelper = require(process.cwd() + "/app/helpers/generalHelper.js");
 
@@ -14,6 +15,7 @@ module.exports = function(app, passport, myCache){
 
   var questionController = new QuestionController(myCache);
   var answerController = new AnswerController(myCache);
+  var voteController = new VoteController(myCache);
 
   app.route('/')
     .get(function(req, res){
@@ -107,6 +109,58 @@ module.exports = function(app, passport, myCache){
   		successRedirect: '/',
   		failureRedirect: '/login'
   	}));
+
+  // Add vote to question or answer
+  app.post('/vote/add', [
+      check('post-id').exists(),
+      check('is-positive').exists()
+    ], async (req, res, next) => {
+
+      try {
+        validationResult(req).throw();
+
+        if(req.user){
+          user = req.user.fb;
+        }else{
+          res.status(400).json(ResultConstants.NEED_TO_LOGIN);
+        }
+
+        let voteparams = {
+          postId: req.body['post-id'],
+          point: req.body['is-positive'] === 'true' ? 1 : -1
+        }
+
+        let voteResult = await voteController.addVote(user, voteparams);
+        res.json(voteResult);
+
+      } catch (err) {
+        console.error(err);
+        res.status(400).json(ResultConstants[400]);
+      }
+    });
+
+  // Remove vote from question or answer
+  app.post('/vote/remove', [
+      check('vote-id').exists()
+    ], async (req, res, next) => {
+
+      try {
+        validationResult(req).throw();
+
+        if(req.user){
+          user = req.user.fb;
+        }else{
+          res.status(400).json(ResultConstants.NEED_TO_LOGIN);
+        }
+
+        let voteResult = await voteController.removeVote(user, req.body['vote-id']);
+        res.json(voteResult);
+
+      } catch (err) {
+        console.error(err);
+        res.status(400).json(ResultConstants[400]);
+      }
+    });
 
 
   // app.route('/places/photo/:id')
