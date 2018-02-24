@@ -120,7 +120,7 @@ module.exports = function(app, passport, myCache){
         validationResult(req).throw();
 
         if(req.user){
-          user = req.user.fb;
+          let user = req.user.fb;
         }else{
           res.status(400).json(ResultConstants.NEED_TO_LOGIN);
         }
