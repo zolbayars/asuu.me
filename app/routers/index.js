@@ -118,9 +118,9 @@ module.exports = function(app, passport, myCache){
 
       try {
         validationResult(req).throw();
-
+        let user = null;
         if(req.user){
-          let user = req.user.fb;
+          user = req.user.fb;
         }else{
           res.status(400).json(ResultConstants.NEED_TO_LOGIN);
         }
@@ -141,6 +141,8 @@ module.exports = function(app, passport, myCache){
 
   // Remove vote from question or answer
   app.post('/vote/remove', [
+      check('post-id').exists(),
+      check('post-type').exists(),
       check('vote-id').exists()
     ], async (req, res, next) => {
 
@@ -153,7 +155,7 @@ module.exports = function(app, passport, myCache){
           res.status(400).json(ResultConstants.NEED_TO_LOGIN);
         }
 
-        let voteResult = await voteController.removeVote(user, req.body['vote-id']);
+        let voteResult = await voteController.removeVote(user, req.body);
         res.json(voteResult);
 
       } catch (err) {

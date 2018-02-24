@@ -11,19 +11,29 @@
       <div id="question-list-container" class="list-group">
           <% if(questionsData != null){ %>
             <% for (var i = 0; i < questionsData.length; i++) { %>
-              <a href="/questions/<%= questionsData[i]._id %>/<%= questionsData[i].slug %>" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1"><%= questionsData[i].text %></h5>
-                  <small><%= timeagoInstance.format(questionsData[i].createdDate, 'mn') %></small>
+              <a href="/questions/<%= questionsData[i]._id %>/<%= questionsData[i].slug %>"
+                class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="question-container">
+                  <div class="question-votes-container">
+                    <div>0 votes</div>
+                    <div>0 votes</div>
+                    <div>0 votes</div>
+                  </div>
+                  <div class="question-container-home">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"><%= questionsData[i].text %></h5>
+                      <small><%= timeagoInstance.format(questionsData[i].createdDate, 'mn') %></small>
+                    </div>
+                    <!-- <p class="mb-1"></p> -->
+                    <small id="question-date">
+                      <% if(questionsData[i].user != null){ %>
+                        <%= questionsData[i].user.fb.displayName %>
+                      <% }else{ %>
+                        anonymous
+                      <% } %>
+                    </small>
+                  </div>
                 </div>
-                <!-- <p class="mb-1"></p> -->
-                <small id="question-date">
-                  <% if(questionsData[i].user != null){ %>
-                    <%= questionsData[i].user.fb.displayName %>
-                  <% }else{ %>
-                    anonymous
-                  <% } %>
-                </small>
               </a>
               <% } %>
           <% } %>

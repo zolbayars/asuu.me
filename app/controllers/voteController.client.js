@@ -22,8 +22,8 @@
     var ajaxObj = ajaxCall('POST', { 'post-id': postId, 'is-positive': isPositive}, '/vote/add');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
-      console.error(textStatus);
-      console.error(errorThrown);
+      // console.error(textStatus);
+      // console.error(errorThrown);
       console.error(jqXHR);
       return errorCallback(element, jqXHR);
     });
@@ -35,7 +35,7 @@
   }
 
   function handleAddVoteError(element, error){
-    if(error.status == 400){
+    if(error.responseJSON.result_code == 902){
         element.popover('show');
     }
   }

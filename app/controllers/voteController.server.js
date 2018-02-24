@@ -43,12 +43,15 @@ function VoteController(myCache){
 
     try {
       let voteDBResult = await vote.save();
-      console.log("answerDBResult", voteDBResult);
+      console.log("voteDBResult", voteDBResult);
 
       let questionUpdateQuery = Question.findByIdAndUpdate(voteData.postId,
         { "$push": { "votes": voteDBResult._id } },
-        { "new": true, "upsert": true },
-        { "$inc": { "voteSum": voteData.point } });
+        { "new": true, "upsert": true });
+
+      // updateVoteSum({post-id: voteData.postId, vote-id: voteDBResult._id, post-type: 'question'});
+
+      // console.log("questionUpdateQuery", questionUpdateQuery);
 
       let updateResult = await questionUpdateQuery.exec();
       console.log("updateQuestResult", updateResult);
@@ -57,17 +60,18 @@ function VoteController(myCache){
       return result;
 
     } catch (e) {
-      console.error(e);
-      result = ResultConstants.DB_ERROR_WHILE_SAVING;
+      console.error("error in vote saving", e);
+      return ResultConstants.DB_ERROR_WHILE_SAVING;
     }
 
   }
 
+  //Remove Vote object and decrease or increase the voteSum of a related post
   this.removeVote = async function(user, params){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
-    utils.log(user, "Removing vote", voteData);
+    utils.log(user, "Removing vote", params);
 
     let realUser = null;
 
@@ -84,8 +88,8 @@ function VoteController(myCache){
 
     //WTF
     try {
-      await updateVoteSum(params.postType, params.voteId);
-      let removeVoteResult = await Vote.findByIdAndRemove(params.voteId).exec();
+      await updateVoteSum(params);
+      let removeVoteResult = await Vote.findByIdAndRemove(params['vote-id']).exec();
       console.log("removeVoteResult", removeVoteResult);
 
       result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
@@ -98,18 +102,19 @@ function VoteController(myCache){
 
   }
 
-  async function updateVoteSum(postType, voteId){
+  // Updating vote sum on a post
+  async function updateVoteSum(params){
     try {
       postObj = Question;
 
-      if(postType == 'answer'){
+      if(params['post-type'] == 'answer'){
         postObj = Answer;
       }
 
-      let vote = Vote.findById(params.voteId);
+      let vote = Vote.findById(params['vote-id']);
       let valueToChange = -vote.vote;
 
-      let updateVoteSumQuery = postObj.findByIdAndUpdate(params.postId,
+      let updateVoteSumQuery = postObj.findByIdAndUpdate(params['post-id'],
         { "$inc": { "voteSum": valueToChange } });
       let updateVoteSumQueryResult = await updateVoteSumQuery.exec();
       console.log("updateVoteSum query result", updateVoteSumQueryResult);
