@@ -25,7 +25,7 @@
                   <div class="vote">
                     <a href="#" class="vote-button" data-post-id="<%= questionData._id %> " data-is-positive="true" data-toggle="popover"
                       data-placement="top" data-trigger="manual" data-html="true"
-                      data-content="<div class='login-fb-popover'><a href='/auth/facebook'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
+                      data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= questionData._id %>/<%= questionData.slug %>'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
                       <img src="/public/images/chevron-top.svg"/>
                     </a>
                     <span class="vote-count-post"><%= questionData.voteSum %></span>

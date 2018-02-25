@@ -17,6 +17,8 @@ module.exports = function(app, passport, myCache){
   var answerController = new AnswerController(myCache);
   var voteController = new VoteController(myCache);
 
+  const clientIdCacheKey = "client-id";
+
   app.route('/')
     .get(function(req, res){
 
@@ -95,20 +97,72 @@ module.exports = function(app, passport, myCache){
       res.render('login',  {title: 'Login'});
     });
 
+  app.get('/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err); }
+      if (!user) { return res.redirect('/login'); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/users/' + user.username);
+      });
+    })(req, res, next);
+  });
+
   app.route('/logout')
     .get(function(req, res){
       req.logout();
       res.redirect('/');
     });
 
-  app.route('/auth/facebook')
-    .get(passport.authenticate('facebook'));
+  app.get('/auth/facebook/', function(req,res,next) {
+    console.log("req.ip 1", req.ip);
+    let cacheSuccess = myCache.set(clientIdCacheKey+'-redirect-'+req.ip, req.query['url']);
+    console.log("cacheSuccess", cacheSuccess);
 
-  app.route('/auth/facebook/callback')
-  	.get(passport.authenticate('facebook', {
-  		successRedirect: '/',
+    passport.authenticate(
+      'facebook',
+       {callbackURL: '/auth/facebook/callback'}
+    )(req,res,next);
+  });
+
+  app.get('/auth/facebook/callback/', function(req,res,next) {
+    console.log("req.ip 2", req.ip);
+    let redirectUrl = '/';
+    try {
+      redirectUrl = myCache.get(clientIdCacheKey+'-redirect-'+req.ip);
+    } catch (e) {
+      console.error("error in auth", e);
+    }
+
+    console.log("redirectUrl", redirectUrl);
+    passport.authenticate('facebook', {
+  		successRedirect: redirectUrl,
   		failureRedirect: '/login'
-  	}));
+  	}) (req,res,next);
+   });
+
+  // app.get('/auth/facebook/callback/', function(req,res,next) {
+  //   console.log("!!!!!! redirect url: ",req.query.url);
+  //   passport.authenticate(
+  //     'facebook',
+  //      {
+  //        callbackURL:"/auth/facebook/callback/?url="+req.query['url']
+  //      , successRedirect:req.query.url
+  //      , failureRedirect:"/login_failed.html"
+  //      }
+  //    ) (req,res,next);
+  //  });
+
+  // app.get('/auth/facebook/callback', function(req, res, next) {
+  //   passport.authenticate('facebook', function(err, user, info) {
+  //     if (err) { return next(err); }
+  //     if (!user) { return res.redirect('/login'); }
+  //     req.logIn(user, function(err) {
+  //       if (err) { return next(err); }
+  //       return res.redirect(req.query['redirect-url']);
+  //     });
+  //   })(req, res, next);
+  // });
 
   // Add vote to question or answer
   app.post('/vote/add', [
@@ -119,10 +173,11 @@ module.exports = function(app, passport, myCache){
       try {
         validationResult(req).throw();
         let user = null;
-        if(req.user){
+        console.log("req.user", req.user);
+        if(req.user != null && req.user != undefined){
           user = req.user.fb;
         }else{
-          res.status(400).json(ResultConstants.NEED_TO_LOGIN);
+          return res.status(400).json(ResultConstants.NEED_TO_LOGIN);
         }
 
         let voteparams = {
@@ -131,11 +186,11 @@ module.exports = function(app, passport, myCache){
         }
 
         let voteResult = await voteController.addVote(user, voteparams);
-        res.json(voteResult);
+        return res.json(voteResult);
 
       } catch (err) {
         console.error(err);
-        res.status(400).json(ResultConstants[400]);
+        return res.status(400).json(ResultConstants[400]);
       }
     });
 
