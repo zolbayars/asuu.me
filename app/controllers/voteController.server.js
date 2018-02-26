@@ -46,15 +46,13 @@ function VoteController(myCache){
       console.log("voteDBResult", voteDBResult);
 
       let questionUpdateQuery = Question.findByIdAndUpdate(voteData.postId,
-        { "$push": { "votes": voteDBResult._id } },
+        { "$inc": { "voteSum": voteData.point } ,
+        "$push": { "votes": voteDBResult._id } },
         { "new": true, "upsert": true });
-
-      // updateVoteSum({post-id: voteData.postId, vote-id: voteDBResult._id, post-type: 'question'});
-
-      // console.log("questionUpdateQuery", questionUpdateQuery);
-
       let updateResult = await questionUpdateQuery.exec();
+
       console.log("updateQuestResult", updateResult);
+      updateVoteSum({'post-id': voteData.postId, 'vote-id': voteDBResult._id, 'post-type': 'question'});
 
       result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
       return result;
@@ -105,7 +103,7 @@ function VoteController(myCache){
   // Updating vote sum on a post
   async function updateVoteSum(params){
     try {
-      postObj = Question;
+      let postObj = Question;
 
       if(params['post-type'] == 'answer'){
         postObj = Answer;

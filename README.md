@@ -10,21 +10,16 @@ We're still developing it and here's the list of features we should in immediate
 ### TODO
 
 #### v1.1
-* redesign upvote and downvote buttons -> OK
-* Upvote, Downvote the question (when logged in)
-* Upvote, Downvote an answer (when logged in)
-* Show vote, view, answer count in home
-* User ranks
-  * Users can accumulate points by answering question
-* If not anonymous, the user information for (question, answer, comment) in question detail page
-* Detailed question form
+* Upvote, Downvote the question (when logged in) -> 02/26
+* Upvote, Downvote an answer (when logged in) -> 02/26
+* Show vote, view, answer count in home -> 02/26
+* User ranks -> 02/28
+  * Users can accumulate points by answering question -> 02/28
+* If not anonymous, the user information for (question, answer, comment) in question detail page -> 02/27
+* Detailed question form -> 03/04
   * Basic form with following functionalities and fields:
     * Title
     * Question body
       * Markdown
     * Tag
       * Auto completion
-* Question detail page
-  * Writing a comment on an answer
-  * Upvote, Downvote a comment
-  * Number of views the question got -> OK

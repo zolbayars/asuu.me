@@ -29,6 +29,7 @@
     });
 
     ajaxObj.done(function(data){
+      console.log(data);
       // return errorCallback(callback(data));
     });
 

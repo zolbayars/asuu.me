@@ -69,9 +69,11 @@ module.exports = function(app, passport, myCache){
         timeagoInstance: timeago()
       }
 
-      questionController.getQuestionByID(req.params.id, function(data){
+      questionController.getQuestionByID(req.params.id, user, function(data, voteData){
         if(data){
           templateValues['questionData'] = data,
+          templateValues['isUserUpVoted'] = voteData.isUserUpVoted,
+          templateValues['isUserDownVoted'] = voteData.isUserDownVoted,
           templateValues['title'] = data.text + " - asuu.me"
 
           questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
@@ -129,7 +131,10 @@ module.exports = function(app, passport, myCache){
     console.log("req.ip 2", req.ip);
     let redirectUrl = '/';
     try {
-      redirectUrl = myCache.get(clientIdCacheKey+'-redirect-'+req.ip);
+      let urlFromCache = myCache.get(clientIdCacheKey+'-redirect-'+req.ip);
+      if(urlFromCache && urlFromCache != ' '){
+        redirectUrl = urlFromCache; 
+      }
     } catch (e) {
       console.error("error in auth", e);
     }

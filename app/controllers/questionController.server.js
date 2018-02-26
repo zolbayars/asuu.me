@@ -75,18 +75,18 @@ function QuestionController(myCache){
   }
 
   // Get a question by its ID
-  this.getQuestionByID = function(questionId, callback){
+  this.getQuestionByID = function(questionId, currentUser, callback){
 
     var query = Question.where({ _id: questionId });
     var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'} }, {path:'votes'}];
 
-    query.findOne(function(err, question){
+    query.findOne(async function(err, question){
       if(err){
         console.log("err in getQuestions: ");
         console.error(err);
 
         utils.error("Debug", "Error while getting questions: ", err);
-        callback(null);
+        callback(null, null);
       }
 
       if(question){
@@ -95,8 +95,12 @@ function QuestionController(myCache){
           if(err) console.error(err);
         });
 
+        let voteData = await getVoteData(currentUser, question);
+
         console.log("question: ",question);
-        callback(question);
+        console.log("vote data: ",voteData);
+
+        callback(question, voteData);
       }
     }).populate(populateQuery);
 
@@ -117,6 +121,44 @@ function QuestionController(myCache){
       }).limit(5);
 
     }
+
+// Check if user upvoted or downvoted on a post.
+  async function getVoteData(user, question){
+
+    console.log("user in getVoteData", user);
+    let voteData = {
+      isUserUpVoted: false,
+      isUserDownVoted: false
+    }
+
+    if(user != 'anonymous' && user.id){
+      let realUser = user;
+      try {
+        realUser = await Users.findOne({ 'fb.id': user.id }).exec();
+      } catch (e) {
+        realUser = user;
+        console.error(e);
+        return result;
+      }
+
+      console.log("realUser in getVoteData", realUser);
+
+      if(question.votes.length > 0){
+        for(var element of question.votes){
+          if(element.userId == realUser._id){
+            if(element.vote > 0){
+              voteData.isUserUpVoted = true;
+            }else{
+              voteData.isUserDownVoted = true;
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    return voteData;
+  }
 
   function genSlug(questionText){
     var splitted = questionText.split(" ");
