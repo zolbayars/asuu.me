@@ -20,8 +20,6 @@ function VoteController(myCache){
 
     var result = ResultConstants.UNDEFINED_ERROR;
 
-    utils.log(user, "Adding vote", voteData);
-
     let realUser = null;
 
     try {
@@ -42,8 +40,21 @@ function VoteController(myCache){
     });
 
     try {
+
+      let existingVote = await Vote.find({
+        $and: [
+          { userId: realUser._id },
+          { postId: voteData.postId }
+        ]
+      }).exec();
+
+      console.log("existing vote result", existingVote);
+      if(existingVote && existingVote.length > 0){
+        return ResultConstants.NEED_TO_LOGIN;
+      }
+
       let voteDBResult = await vote.save();
-      console.log("voteDBResult", voteDBResult);
+      console.log("vote saved result", voteDBResult);
 
       let questionUpdateQuery = Question.findByIdAndUpdate(voteData.postId,
         { "$inc": { "voteSum": voteData.point } ,
@@ -51,8 +62,7 @@ function VoteController(myCache){
         { "new": true, "upsert": true });
       let updateResult = await questionUpdateQuery.exec();
 
-      console.log("updateQuestResult", updateResult);
-      updateVoteSum({'post-id': voteData.postId, 'vote-id': voteDBResult._id, 'post-type': 'question'});
+      console.log("question update result", updateResult);
 
       result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
       return result;
@@ -86,7 +96,7 @@ function VoteController(myCache){
 
     //WTF
     try {
-      await updateVoteSum(params);
+      await updateVoteSum(params, true);
       let removeVoteResult = await Vote.findByIdAndRemove(params['vote-id']).exec();
       console.log("removeVoteResult", removeVoteResult);
 
@@ -101,7 +111,7 @@ function VoteController(myCache){
   }
 
   // Updating vote sum on a post
-  async function updateVoteSum(params){
+  async function updateVoteSum(params, isRemoval){
     try {
       let postObj = Question;
 
@@ -110,7 +120,10 @@ function VoteController(myCache){
       }
 
       let vote = await Vote.findById(params['vote-id']);
-      let valueToChange = -vote.vote;
+      let valueToChange = vote.vote;
+      if(isRemoval){
+        valueToChange = -valueToChange;
+      }
       console.log("vote.vote", vote.vote);
       console.log("valueToChange", valueToChange);
 

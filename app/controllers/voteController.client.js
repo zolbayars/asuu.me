@@ -19,27 +19,32 @@
     console.log("postType", postType);
     console.log("voteId", voteId);
 
-    let isAlreadyClicked = $(event.currentTarget).attr("data-is-already-clicked");
+    if($("#current-user-id").val() != "anonymous"){
+      let isAlreadyClicked = $(event.currentTarget).attr("data-is-already-clicked");
 
-    if(isAlreadyClicked == 1){
-      if(isPositive){
-        voteSumElement.html(parseInt(voteSumElement.text()) - 1);
-        $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top.svg");
+      if(isAlreadyClicked == 1){
+        if(isPositive == 1){
+          voteSumElement.html(parseInt(voteSumElement.text()) - 1);
+          $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top.svg");
+        }else{
+          voteSumElement.html(parseInt(voteSumElement.text()) + 1);
+          $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom.svg");
+        }
+        removeVote(postId, postType, voteId, $(event.currentTarget), handleAddVoteError)
       }else{
-        voteSumElement.html(parseInt(voteSumElement.text()) + 1);
-        $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom.svg");
+        if(isPositive == 1){
+          voteSumElement.html(parseInt(voteSumElement.text()) + 1);
+          $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top-clicked.svg");
+        }else{
+          voteSumElement.html(parseInt(voteSumElement.text()) - 1);
+          $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom-clicked.svg");
+        }
+        addVote(postId, isPositive, $(event.currentTarget), handleAddVoteError);
       }
-      removeVote(postId, postType, voteId, $(event.currentTarget), handleAddVoteError)
     }else{
-      if(isPositive){
-        voteSumElement.html(parseInt(voteSumElement.text()) + 1);
-        $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top-clicked.svg");
-      }else{
-        voteSumElement.html(parseInt(voteSumElement.text()) - 1);
-        $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom-clicked.svg");
-      }
-      addVote(postId, isPositive, $(event.currentTarget), handleAddVoteError);
+      $(event.currentTarget).popover('show');
     }
+
 
 
   });

@@ -178,7 +178,9 @@ module.exports = function(app, passport, myCache){
       try {
         validationResult(req).throw();
         let user = null;
-        console.log("req.user", req.user);
+
+        console.group("/vote/add "+ req.user+" - "+req.body['post-id']+" - "+req.body['is-positive']+" called");
+
         if(req.user != null && req.user != undefined){
           user = req.user.fb;
         }else{
@@ -191,6 +193,8 @@ module.exports = function(app, passport, myCache){
         }
 
         let voteResult = await voteController.addVote(user, voteparams);
+        console.log("/vote/add "+ req.user+" - "+req.body['post-id']+" - "+req.body['is-positive'], voteResult);
+        console.groupEnd();
         return res.json(voteResult);
 
       } catch (err) {
@@ -209,7 +213,7 @@ module.exports = function(app, passport, myCache){
       try {
         validationResult(req).throw();
 
-        let user = null; 
+        let user = null;
         if(req.user){
           user = req.user.fb;
         }else{

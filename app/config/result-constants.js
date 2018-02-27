@@ -15,6 +15,10 @@ module.exports = {
     result_code: 902,
     result_msg: "You should login",
   },
+  ALREADY_VOTED: {
+    result_code: 903,
+    result_msg: "You already voted for this post",
+  },
   400: {
     result_code: 400,
     result_msg: "Invalid parameters",
