@@ -147,9 +147,9 @@ function QuestionController(myCache){
         for(var element of question.votes){
           if(element.userId == realUser._id){
             if(element.vote > 0){
-              voteData.isUserUpVoted = true;
+              voteData.isUserUpVoted = element._id;
             }else{
-              voteData.isUserDownVoted = true;
+              voteData.isUserDownVoted = element._id;
             }
             break;
           }

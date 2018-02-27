@@ -24,13 +24,17 @@
                 <td class="votecell">
                   <div class="vote">
                     <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="true" data-toggle="popover"
-                      data-placement="top" data-trigger="manual" data-html="true"
+                      data-placement="top" data-trigger="manual" data-html="true" data-is-already-clicked="<% if(isUserUpVoted != false){ %>1<% }else{ %>0<% } %>"
+                      data-vote-id="<%= isUserUpVoted %>" data-post-type="question"
                       data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= questionData._id %>/<%= questionData.slug %>'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
-                      <img src="<% if(isUserUpVoted == true){ %>/public/images/chevron-top-clicked.svg<% }else{ %>/public/images/chevron-top.svg<% } %>"/>
+                      <img id="vote-top-chevron-<%= questionData._id %>" src="<% if(isUserUpVoted != false){ %>/public/images/chevron-top-clicked.svg<% }else{ %>/public/images/chevron-top.svg<% } %>"/>
                     </a>
-                    <span class="vote-count-post"><%= questionData.voteSum %></span>
-                    <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="false">
-                      <img src="<% if(isUserDownVoted == true){ %>/public/images/chevron-bottom-clicked.svg<% }else{ %>/public/images/chevron-bottom.svg<% } %>"/>
+                    <span class="vote-count-post" id="vote-count-<%= questionData._id %>"><%= questionData.voteSum %></span>
+                    <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="false"data-toggle="popover"
+                      data-placement="bottom" data-trigger="manual" data-html="true" data-is-already-clicked="<% if(isUserDownVoted != false){ %>1<% }else{ %>0<% } %>"
+                      data-vote-id="<%= isUserDownVoted %>" data-post-type="question"
+                      data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= questionData._id %>/<%= questionData.slug %>'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
+                      <img id="vote-bottom-chevron-<%= questionData._id %>" src="<% if(isUserDownVoted != false){ %>/public/images/chevron-bottom-clicked.svg<% }else{ %>/public/images/chevron-bottom.svg<% } %>"/>
                     </a>
                   </div>
                 </td>

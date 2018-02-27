@@ -109,8 +109,10 @@ function VoteController(myCache){
         postObj = Answer;
       }
 
-      let vote = Vote.findById(params['vote-id']);
+      let vote = await Vote.findById(params['vote-id']);
       let valueToChange = -vote.vote;
+      console.log("vote.vote", vote.vote);
+      console.log("valueToChange", valueToChange);
 
       let updateVoteSumQuery = postObj.findByIdAndUpdate(params['post-id'],
         { "$inc": { "voteSum": valueToChange } });

@@ -133,7 +133,7 @@ module.exports = function(app, passport, myCache){
     try {
       let urlFromCache = myCache.get(clientIdCacheKey+'-redirect-'+req.ip);
       if(urlFromCache && urlFromCache != ' '){
-        redirectUrl = urlFromCache; 
+        redirectUrl = urlFromCache;
       }
     } catch (e) {
       console.error("error in auth", e);
@@ -209,6 +209,7 @@ module.exports = function(app, passport, myCache){
       try {
         validationResult(req).throw();
 
+        let user = null; 
         if(req.user){
           user = req.user.fb;
         }else{
