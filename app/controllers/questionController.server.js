@@ -97,8 +97,8 @@ function QuestionController(myCache){
 
         let voteData = await getVoteData(currentUser, question);
 
-        console.log("question: ",question);
-        console.log("vote data: ",voteData);
+        // console.log("question: ",question);
+        // console.log("vote data: ",voteData);
 
         callback(question, voteData);
       }

@@ -10,12 +10,15 @@ var AnswerController = require(process.cwd() + "/app/controllers/answerControlle
 var VoteController = require(process.cwd() + "/app/controllers/voteController.server.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 var GeneralHelper = require(process.cwd() + "/app/helpers/generalHelper.js");
+var ErrorHandler = require(process.cwd() + "/app/helpers/errorHandler.js");
+var Users = require('../models/users.js');
 
 module.exports = function(app, passport, myCache){
 
   var questionController = new QuestionController(myCache);
   var answerController = new AnswerController(myCache);
   var voteController = new VoteController(myCache);
+  let errorHandler = new ErrorHandler();
 
   const clientIdCacheKey = "client-id";
 
@@ -172,60 +175,54 @@ module.exports = function(app, passport, myCache){
   // Add vote to question or answer
   app.post('/vote/add', [
       check('post-id').exists(),
-      check('is-positive').exists()
+      check('is-positive').exists(),
+      check('user').custom(userValidator)
     ], async (req, res, next) => {
 
       try {
         validationResult(req).throw();
-        let user = null;
 
-        console.group("/vote/add "+ req.user+" - "+req.body['post-id']+" - "+req.body['is-positive']+" called");
-
-        if(req.user != null && req.user != undefined){
-          user = req.user.fb;
-        }else{
-          return res.status(400).json(ResultConstants.NEED_TO_LOGIN);
-        }
+        console.group("/vote/add "+ req.realUser._id+"\n", req.body);
 
         let voteparams = {
           postId: req.body['post-id'],
-          point: req.body['is-positive'] === 'true' ? 1 : -1
+          point: req.body['is-positive'] == 1 ? 1 : -1
         }
 
-        let voteResult = await voteController.addVote(user, voteparams);
-        console.log("/vote/add "+ req.user+" - "+req.body['post-id']+" - "+req.body['is-positive'], voteResult);
+        let voteResult = await voteController.addVote(req.realUser, voteparams);
+
+        console.log("/vote/add response"+ req.realUser._id+"\n", voteResult);
         console.groupEnd();
+
         return res.json(voteResult);
 
       } catch (err) {
-        console.error(err);
-        return res.status(400).json(ResultConstants[400]);
+        next(err);
       }
+
     });
 
   // Remove vote from question or answer
   app.post('/vote/remove', [
       check('post-id').exists(),
       check('post-type').exists(),
-      check('vote-id').exists()
+      check('vote-id').exists(),
+      check('user').custom(userValidator)
     ], async (req, res, next) => {
 
       try {
         validationResult(req).throw();
+        console.group("/vote/remove "+ req.realUser._id+"\n", req.body);
 
-        let user = null;
-        if(req.user){
-          user = req.user.fb;
-        }else{
-          res.status(400).json(ResultConstants.NEED_TO_LOGIN);
-        }
+        let voteResult = await voteController.removeVote(req.body);
 
-        let voteResult = await voteController.removeVote(user, req.body);
-        res.json(voteResult);
+        console.log("/vote/remove response "+ req.realUser._id+"\n", voteResult);
+        console.groupEnd();
+
+        return res.json(voteResult);
 
       } catch (err) {
-        console.error(err);
-        res.status(400).json(ResultConstants[400]);
+        next(err);
       }
     });
 
@@ -344,4 +341,42 @@ module.exports = function(app, passport, myCache){
       res.redirect('/login');
     }
   }
+
+  // API level errors are caught in here
+  app.use((err, req, res, next) => {
+    let error = errorHandler.handle(err);
+    return res.json(error);
+  });
+
+  async function userValidator(value,  { req, location, path }){
+    // console.log("inside custom validator");
+    // console.log("value", value);
+    // console.log("location", location);
+    // console.log("user", req.user);
+    // console.log("req", req.body);
+
+    if(req.user != null && req.user != undefined){
+      req.fbUser = req.user.fb;
+      let realUser = null;
+
+      try {
+        realUser = await Users.findOne({ 'fb.id': req.user.fb.id }).exec();
+        console.log("realUser", realUser);
+        if(!realUser){
+          throw new Error("COULD_NOT_FIND_USER_IN_DB");
+        }
+        req.realUser = realUser;
+
+      } catch (e) {
+        console.error("Error while checking user in userValidator\n",e);
+        throw new Error("COULD_NOT_FIND_USER_IN_DB");
+      }
+
+    }else{
+      throw new Error("NEED_TO_LOGIN");
+    }
+
+    // req.user = "Lkhagvaa";
+    return true;
+  };
 }

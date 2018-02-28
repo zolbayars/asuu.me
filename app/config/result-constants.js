@@ -19,6 +19,10 @@ module.exports = {
     result_code: 903,
     result_msg: "You already voted for this post",
   },
+  COULD_NOT_FIND_USER_IN_DB: {
+    result_code: 904,
+    result_msg: "User not registered in our DB",
+  },
   400: {
     result_code: 400,
     result_msg: "Invalid parameters",

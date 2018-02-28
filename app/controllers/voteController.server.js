@@ -18,23 +18,8 @@ function VoteController(myCache){
 
   this.addVote = async function(user, voteData){
 
-    var result = ResultConstants.UNDEFINED_ERROR;
-
-    let realUser = null;
-
-    try {
-      realUser = await Users.findOne({ 'fb.id': user.id }).exec();
-    } catch (e) {
-      console.error(e);
-      return result;
-    }
-
-    if(!realUser){
-      return ResultConstants.NEED_TO_LOGIN;
-    }
-
     var vote = new Vote({
-      userId: realUser._id,
+      userId: user._id,
       postId: voteData.postId,
       vote: voteData.point
     });
@@ -43,18 +28,17 @@ function VoteController(myCache){
 
       let existingVote = await Vote.find({
         $and: [
-          { userId: realUser._id },
+          { userId: user._id },
           { postId: voteData.postId }
         ]
       }).exec();
 
-      console.log("existing vote result", existingVote);
       if(existingVote && existingVote.length > 0){
-        return ResultConstants.NEED_TO_LOGIN;
+        return ResultConstants.ALREADY_VOTED;
       }
 
       let voteDBResult = await vote.save();
-      console.log("vote saved result", voteDBResult);
+      console.log("vote saved result\n", voteDBResult);
 
       let questionUpdateQuery = Question.findByIdAndUpdate(voteData.postId,
         { "$inc": { "voteSum": voteData.point } ,
@@ -62,46 +46,24 @@ function VoteController(myCache){
         { "new": true, "upsert": true });
       let updateResult = await questionUpdateQuery.exec();
 
-      console.log("question update result", updateResult);
-
-      result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
-      return result;
+      return utils.getSuccessTemplate(ResultConstants.SUCCESS);
 
     } catch (e) {
-      console.error("error in vote saving", e);
+      console.error("error while vote saving", e);
       return ResultConstants.DB_ERROR_WHILE_SAVING;
     }
 
   }
 
   //Remove Vote object and decrease or increase the voteSum of a related post
-  this.removeVote = async function(user, params){
+  this.removeVote = async function(params){
 
-    var result = ResultConstants.UNDEFINED_ERROR;
-
-    utils.log(user, "Removing vote", params);
-
-    let realUser = null;
-
-    try {
-      realUser = await Users.findOne({ 'fb.id': user.id }).exec();
-    } catch (e) {
-      console.error(e);
-      return result;
-    }
-
-    if(!realUser){
-      return ResultConstants.NEED_TO_LOGIN;
-    }
-
-    //WTF
     try {
       await updateVoteSum(params, true);
       let removeVoteResult = await Vote.findByIdAndRemove(params['vote-id']).exec();
       console.log("removeVoteResult", removeVoteResult);
 
-      result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
-      return result;
+      return utils.getSuccessTemplate(ResultConstants.SUCCESS);
 
     } catch (e) {
       console.error(e);
