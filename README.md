@@ -7,10 +7,12 @@
 
 We're still developing it and here's the list of features we should in immediate future.
 
+### Known issues
+* upvote, downvote button click event not working correctly right after unvoting up or down
+
 ### TODO
 
 #### v1.1
-* Upvote, Downvote the question (when logged in) -> 02/26
 * Upvote, Downvote an answer (when logged in) -> 02/26
 * Show vote, view, answer count in home -> 02/26
 * User ranks -> 02/28
