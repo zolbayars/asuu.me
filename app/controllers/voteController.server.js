@@ -39,9 +39,12 @@ function VoteController(myCache){
 
       let voteDBResult = await vote.save();
 
-      await addNewVote(voteData, voteDBResult._id);
+      let newVote = await addNewVote(voteData, voteDBResult._id);
 
-      return utils.getSuccessTemplate(ResultConstants.SUCCESS);
+      let result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
+      console.log("newVote", newVote);
+      result['vote-id'] = newVote._id;
+      return result;
 
     } catch (e) {
       console.error("error while vote saving", e);

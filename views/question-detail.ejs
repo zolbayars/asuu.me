@@ -22,7 +22,7 @@
             <table>
               <tr>
                 <td class="votecell">
-                  <div class="vote">
+                  <div class="vote" id="vote-div-<%= questionData._id %>">
                     <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="1" data-toggle="popover"
                       data-placement="top" data-trigger="manual" data-html="true" data-is-already-clicked="<% if(isUserUpVoted != false){ %>1<% }else{ %>0<% } %>"
                       data-vote-id="<%= isUserUpVoted %>" data-post-type="question"

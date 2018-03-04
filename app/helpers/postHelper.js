@@ -44,9 +44,10 @@ function PostHelper() {
             for(var answer of answers){
               for(var element of answer.votes){
                 if(element.userId == realUser._id){
-                  voteData.answerVotes[element._id] = {
-                    vote: element.vote,
-                    'vote-id': element._id
+                  voteData.answerVotes[answer._id] = {
+                    'vote': element.vote,
+                    'vote-id': element._id,
+                    'user-id': element.userId,
                   };
                   break;
                 }
