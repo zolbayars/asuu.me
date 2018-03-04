@@ -7,6 +7,7 @@ var Users = require('../models/users.js');
 var Question = require('../models/question.js');
 var Vote = require('../models/vote.js');
 var GeneralHelper = require("../helpers/generalHelper.js");
+var PostHelper = require("../helpers/postHelper.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -14,6 +15,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 function QuestionController(myCache){
 
   var utils = new GeneralHelper();
+  var postHelper = new PostHelper();
 
   // Saving a question
   this.addQuestion = async function(user, questionData, callback){
@@ -78,7 +80,7 @@ function QuestionController(myCache){
   this.getQuestionByID = function(questionId, currentUser, callback){
 
     var query = Question.where({ _id: questionId });
-    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'} }, {path:'votes'}];
+    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'}, populate: {path: 'votes'} }, {path:'votes'}];
 
     query.findOne(async function(err, question){
       if(err){
@@ -95,10 +97,10 @@ function QuestionController(myCache){
           if(err) console.error(err);
         });
 
-        let voteData = await getVoteData(currentUser, question);
+        let voteData = await postHelper.getVoteData(currentUser, question.votes, question.answers);
 
         // console.log("question: ",question);
-        // console.log("vote data: ",voteData);
+        console.log("vote data: ",voteData);
 
         callback(question, voteData);
       }
@@ -122,43 +124,6 @@ function QuestionController(myCache){
 
     }
 
-// Check if user upvoted or downvoted on a post.
-  async function getVoteData(user, question){
-
-    console.log("user in getVoteData", user);
-    let voteData = {
-      isUserUpVoted: false,
-      isUserDownVoted: false
-    }
-
-    if(user != 'anonymous' && user.id){
-      let realUser = user;
-      try {
-        realUser = await Users.findOne({ 'fb.id': user.id }).exec();
-      } catch (e) {
-        realUser = user;
-        console.error(e);
-        return result;
-      }
-
-      console.log("realUser in getVoteData", realUser);
-
-      if(question.votes.length > 0){
-        for(var element of question.votes){
-          if(element.userId == realUser._id){
-            if(element.vote > 0){
-              voteData.isUserUpVoted = element._id;
-            }else{
-              voteData.isUserDownVoted = element._id;
-            }
-            break;
-          }
-        }
-      }
-    }
-
-    return voteData;
-  }
 
   function genSlug(questionText){
     var splitted = questionText.split(" ");

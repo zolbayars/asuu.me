@@ -77,6 +77,7 @@ module.exports = function(app, passport, myCache){
           templateValues['questionData'] = data,
           templateValues['isUserUpVoted'] = voteData.isUserUpVoted,
           templateValues['isUserDownVoted'] = voteData.isUserDownVoted,
+          templateValues['answerVotes'] = voteData.answerVotes,
           templateValues['title'] = data.text + " - asuu.me"
 
           questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
@@ -176,6 +177,7 @@ module.exports = function(app, passport, myCache){
   app.post('/vote/add', [
       check('post-id').exists(),
       check('is-positive').exists(),
+      check('post-type').exists(),
       check('user').custom(userValidator)
     ], async (req, res, next) => {
 
@@ -186,6 +188,7 @@ module.exports = function(app, passport, myCache){
 
         let voteparams = {
           postId: req.body['post-id'],
+          postType: req.body['post-type'],
           point: req.body['is-positive'] == 1 ? 1 : -1
         }
 

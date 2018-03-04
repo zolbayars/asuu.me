@@ -38,13 +38,8 @@ function VoteController(myCache){
       }
 
       let voteDBResult = await vote.save();
-      console.log("vote saved result\n", voteDBResult);
 
-      let questionUpdateQuery = Question.findByIdAndUpdate(voteData.postId,
-        { "$inc": { "voteSum": voteData.point } ,
-        "$push": { "votes": voteDBResult._id } },
-        { "new": true, "upsert": true });
-      let updateResult = await questionUpdateQuery.exec();
+      await addNewVote(voteData, voteDBResult._id);
 
       return utils.getSuccessTemplate(ResultConstants.SUCCESS);
 
@@ -54,6 +49,7 @@ function VoteController(myCache){
     }
 
   }
+
 
   //Remove Vote object and decrease or increase the voteSum of a related post
   this.removeVote = async function(params){
@@ -67,9 +63,22 @@ function VoteController(myCache){
 
     } catch (e) {
       console.error(e);
-      result = ResultConstants.DB_ERROR_WHILE_SAVING;
+      return ResultConstants.DB_ERROR_WHILE_SAVING;
     }
 
+  }
+
+  async function addNewVote(voteData, voteId){
+    let objToChange = Question;
+    if(voteData.postType == 'answer'){
+      objToChange = Answer;
+    }
+    let questionUpdateQuery = objToChange.findByIdAndUpdate(voteData.postId,
+      { "$inc": { "voteSum": voteData.point } ,
+      "$push": { "votes": voteId } },
+      { "new": true, "upsert": true });
+    let updateResult = await questionUpdateQuery.exec();
+    return updateResult;
   }
 
   // Updating vote sum on a post
@@ -86,13 +95,13 @@ function VoteController(myCache){
       if(isRemoval){
         valueToChange = -valueToChange;
       }
-      console.log("vote.vote", vote.vote);
-      console.log("valueToChange", valueToChange);
+      // console.log("vote.vote", vote.vote);
+      // console.log("valueToChange", valueToChange);
 
       let updateVoteSumQuery = postObj.findByIdAndUpdate(params['post-id'],
         { "$inc": { "voteSum": valueToChange } });
       let updateVoteSumQueryResult = await updateVoteSumQuery.exec();
-      console.log("updateVoteSum query result", updateVoteSumQueryResult);
+      // console.log("updateVoteSum query result", updateVoteSumQueryResult);
     } catch (e) {
       console.error("Error while updateing vote sum", e);
     }

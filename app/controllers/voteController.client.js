@@ -7,11 +7,11 @@
 
     event.preventDefault();
     // console.log(event);
-
-    let postId = $(event.currentTarget).attr("data-post-id");
-    let isPositive = $(event.currentTarget).attr("data-is-positive");
-    let postType = $(event.currentTarget).attr("data-post-type");
-    let voteId = $(event.currentTarget).attr("data-vote-id");
+    let currentElement = $(event.currentTarget);
+    let postId = currentElement.attr("data-post-id");
+    let isPositive = currentElement.attr("data-is-positive");
+    let postType = currentElement.attr("data-post-type");
+    let voteId = currentElement.attr("data-vote-id");
     let voteSumElement = $("#vote-count-"+postId);
 
     console.log("postId", postId);
@@ -20,9 +20,11 @@
     console.log("voteId", voteId);
 
     if($("#current-user-id").val() != "anonymous"){
-      let isAlreadyClicked = $(event.currentTarget).attr("data-is-already-clicked");
+      let isAlreadyClicked = currentElement.attr("data-is-already-clicked");
 
       if(isAlreadyClicked == 1){
+        currentElement.attr("data-is-already-clicked", 0);
+
         if(isPositive == 1){
           voteSumElement.html(parseInt(voteSumElement.text()) - 1);
           $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top.svg");
@@ -30,8 +32,10 @@
           voteSumElement.html(parseInt(voteSumElement.text()) + 1);
           $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom.svg");
         }
-        removeVote(postId, postType, voteId, $(event.currentTarget), handleAddVoteError)
+        removeVote(postId, postType, voteId, currentElement, handleAddVoteError)
       }else{
+        currentElement.attr("data-is-already-clicked", 1);
+
         if(isPositive == 1){
           voteSumElement.html(parseInt(voteSumElement.text()) + 1);
           $("#vote-top-chevron-"+postId).attr("src", "/public/images/chevron-top-clicked.svg");
@@ -39,19 +43,19 @@
           voteSumElement.html(parseInt(voteSumElement.text()) - 1);
           $("#vote-bottom-chevron-"+postId).attr("src", "/public/images/chevron-bottom-clicked.svg");
         }
-        addVote(postId, isPositive, $(event.currentTarget), handleAddVoteError);
+        addVote(postId, isPositive, postType, currentElement, handleAddVoteError);
       }
     }else{
-      $(event.currentTarget).popover('show');
+      currentElement.popover('show');
     }
 
 
 
   });
 
-  function addVote(postId, isPositive, element, errorCallback){
+  function addVote(postId, isPositive, postType, lement, errorCallback){
 
-    var ajaxObj = ajaxCall('POST', { 'post-id': postId, 'is-positive': isPositive}, '/vote/add');
+    var ajaxObj = ajaxCall('POST', { 'post-id': postId, 'is-positive': isPositive, 'post-type': postType }, '/vote/add');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
       // console.error(textStatus);

@@ -52,7 +52,7 @@ function AnswerController(myCache){
 
       result = utils.getSuccessTemplate(ResultConstants.SUCCESS);
       result['answer'] = answerDBResult;
-      result['answer']['user'] = realUser; 
+      result['answer']['user'] = realUser;
       return result;
 
     } catch (e) {
