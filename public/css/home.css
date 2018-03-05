@@ -6,3 +6,13 @@
 .load-more-container {
   margin-top: 1.5rem;
 }
+.question-votes-container {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+
+  display: flex;
+  align-items: center;
+}
+
+.question-stat {
+  
+}

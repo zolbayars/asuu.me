@@ -8,18 +8,22 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div id="question-list-container" class="list-group">
+      <div id="question-list-container" class="list-group container">
           <% if(questionsData != null){ %>
             <% for (var i = 0; i < questionsData.length; i++) { %>
               <a href="/questions/<%= questionsData[i]._id %>/<%= questionsData[i].slug %>"
                 class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="question-container">
-                  <div class="question-votes-container">
-                    <div>0 votes</div>
-                    <div>0 votes</div>
-                    <div>0 votes</div>
+
+                <div class="question-container row">
+
+                  <div class="question-votes-container col col-lg-3 col-md-4 col-sm-12">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].views %><br>views</div>
+                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].votes.length %><br>votes </div>
+                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].answers.length %><br>answers</div>
+                    </div>
                   </div>
-                  <div class="question-container-home">
+                  <div class="question-container-home col col-lg-9 col-md-8">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1"><%= questionsData[i].text %></h5>
                       <small><%= timeagoInstance.format(questionsData[i].createdDate, 'mn') %></small>
@@ -38,5 +42,6 @@
               <% } %>
           <% } %>
         </div>
+      </div>
     </div>
 </div>
