@@ -16,14 +16,14 @@
 
                 <div class="question-container row">
 
-                  <div class="question-votes-container col col-lg-3 col-md-4 col-sm-12">
-                    <div class="row">
-                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].views %><br>views</div>
-                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].votes.length %><br>votes </div>
-                      <div class="col-lg-4 col-md-4 col-sm-4"><%= questionsData[i].answers.length %><br>answers</div>
+                  <div class=" col-lg-3 col-md-4 col-sm-6">
+                    <div class="row" style="text-align: center">
+                      <div class="col-lg-4 col-md-4 col-4"><%= questionsData[i].views %><br>views</div>
+                      <div class="col-lg-4 col-md-4 col-4"><%= questionsData[i].votes.length %><br>votes </div>
+                      <div class="col-lg-4 col-md-4 col-4"><%= questionsData[i].answers.length %><br>answers</div>
                     </div>
                   </div>
-                  <div class="question-container-home col col-lg-9 col-md-8">
+                  <div class="question-container-home col-lg-9 col-md-8 col-sm-6">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1"><%= questionsData[i].text %></h5>
                       <small><%= timeagoInstance.format(questionsData[i].createdDate, 'mn') %></small>

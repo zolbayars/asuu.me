@@ -14,5 +14,17 @@
 }
 
 .question-stat {
-  
+
+}
+
+@media (max-width: 576px) {
+  .question-container-home {
+    margin-top: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .question-container-home {
+    margin-top: 3%;
+  }
 }
