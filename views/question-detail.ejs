@@ -19,7 +19,7 @@
           <div id="question-info-container" class="blog-post" data-qid="">
             <h2 class="blog-post-title"><%= questionData.text %></h2>
             <hr>
-            <table>
+            <table class="question-detail-table">
               <tr>
                 <td class="votecell">
                   <div class="vote" id="vote-div-<%= questionData._id %>">
@@ -38,25 +38,36 @@
                     </a>
                   </div>
                 </td>
-                <td>
+                <td class="question-user-detail-container">
+                  <table class="question-detail-inner-table">
+                    <tr>
+                      <td>
+                      (<%= questionData.views %> views)
+                      <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
+                    </td>
+                    </tr>
+                    <tr>
+                      <td>
+                      <a href="/user/<%= questionData.userId %>">
+                        <small id="question-date">
+                          <% if(questionData.user != null){ %>
+                            <%= questionData.user.fb.displayName %>
+                          <% }else{ %>
+                            anonymous
+                          <% } %>
+                        </small>
 
-                  <p class="blog-post-meta">
-                    <%= timeagoInstance.format(questionData.createdDate, 'mn') %> by
-                    <a href="/user/<%= questionData.userId %>">
-                      <small id="question-date">
-                        <% if(questionData.user != null){ %>
-                          <%= questionData.user.fb.displayName %>
-                        <% }else{ %>
-                          anonymous
-                        <% } %>
-                      </small>
-                    </a>
-                    (<%= questionData.views %> views)
-                  </p>
+                      </a>
+                      <img src="http://graph.facebook.com/<%= questionData.user.fb.id %>/picture?type=album"/>
+                      </td>
 
-                  <p><%= questionData.textDetail %></p>
+                    </tr>
+                  </table>
+
+
+
                 </td>
-
+                  <p><%= questionData.textDetail %></p>
               </tr>
             </table>
           </div><!-- /.blog-post -->

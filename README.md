@@ -13,7 +13,6 @@ We're still developing it and here's the list of features we should in immediate
 ### TODO
 
 #### v1.1
-* Show vote, view, answer count in home -> 02/26
 * User ranks -> 02/28
   * Users can accumulate points by answering question -> 02/28
 * If not anonymous, the user information for (question, answer, comment) in question detail page -> 02/27

@@ -18,12 +18,18 @@
 }
 
 @media (max-width: 576px) {
+  .question-stat-container {
+
+  }
   .question-container-home {
     margin-top: 5%;
   }
 }
 
 @media (max-width: 768px) {
+  .question-stat-container {
+    background-color: #eaf4ff;
+  }
   .question-container-home {
     margin-top: 3%;
   }

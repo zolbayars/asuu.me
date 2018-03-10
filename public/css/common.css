@@ -90,7 +90,7 @@ html {
 }
 
 .vote {
-    text-align: center;
+    text-align: left;
 }
 
 .vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off {
@@ -102,7 +102,7 @@ html {
 }
 
 .vote-button img {
-  width: 50%;
+  width: 25px;
 }
 
 .vote-count-post {

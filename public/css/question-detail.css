@@ -78,3 +78,15 @@
 .login-fb-popover {
   color: #3B5998;
 }
+
+.question-detail-table {
+  width: 100%;
+}
+
+.question-user-detail-container {
+  text-align: right;
+}
+
+.question-detail-inner-table {
+  width: 100%;
+}
