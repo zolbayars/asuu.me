@@ -42,11 +42,12 @@ module.exports = function(app, passport, myCache){
         timeagoInstance: timeago(),
         result_code: 900
       }
-
-      questionController.getQuestions(user, function(data){
+      
+      questionController.getQuestions(user, req.query['nav'], function(data){
         if(data){
           templateValues['questionsData'] = data;
           templateValues['result_code'] = 1000;
+          templateValues['activeNav'] = req.query['nav'];
           // console.log(data);
         }
 

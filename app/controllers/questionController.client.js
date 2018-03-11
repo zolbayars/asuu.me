@@ -2,6 +2,19 @@
 
 (function(){
 
+  (function (){
+    switch ($('#active-nav-type').val()) {
+      case 'viewed':
+        $('#nav-viewed').addClass('active');
+        break;
+      case 'answered':
+        $('#nav-answered').addClass('active');
+        break;
+      default:
+        $('#nav-recent').addClass('active');
+    }
+  })();
+
   $("#ask-quick-question-form").submit(function(event){
     event.preventDefault();
     $("#add-question-warning-container").hide();

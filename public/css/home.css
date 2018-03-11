@@ -17,6 +17,12 @@
 
 }
 
+.question-nav-container {
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem; 
+}
+
 @media (max-width: 576px) {
   .question-stat-container {
 

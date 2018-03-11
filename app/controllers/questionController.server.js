@@ -57,7 +57,21 @@ function QuestionController(myCache){
   }
 
   // Get all questions
-  this.getQuestions = function(user, callback){
+  this.getQuestions = function(user, sortBy, callback){
+
+    let sortObj = {createdDate: -1};
+
+    switch (sortBy) {
+      case 'voted':
+        sortObj = { voteSum: -1 };
+        break;
+      case 'viewed':
+        sortObj = { views: -1 };
+        break;
+      case 'answered':
+        sortObj = { answers: -1 };
+        break;
+    }
 
     Question
       .find({}, {}, function(err, questionsData){
@@ -73,7 +87,7 @@ function QuestionController(myCache){
         callback(questionsData);
       })
       .populate('user')
-      .sort({createdDate: -1});
+      .sort(sortObj);
   }
 
   // Get a question by its ID
