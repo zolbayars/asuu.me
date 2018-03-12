@@ -10,6 +10,9 @@
       case 'answered':
         $('#nav-answered').addClass('active');
         break;
+      case 'voted':
+        $('#nav-voted').addClass('active');
+        break;
       default:
         $('#nav-recent').addClass('active');
     }

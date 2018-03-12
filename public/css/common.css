@@ -87,6 +87,8 @@ html {
 
 .votecell .vote {
     min-width: 46px;
+    width: 4%;
+    text-align: center;
 }
 
 .vote {

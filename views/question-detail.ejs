@@ -58,7 +58,9 @@
                         </small>
 
                       </a>
-                      <img src="http://graph.facebook.com/<%= questionData.user.fb.id %>/picture?type=album"/>
+                      <% if(questionData.user != null){ %>
+                        <img src="http://graph.facebook.com/<%= questionData.user.fb.id %>/picture?type=album"/>
+                      <% } %>
                       </td>
 
                     </tr>
