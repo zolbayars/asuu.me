@@ -13,7 +13,6 @@ We're still developing it and here's the list of features we need in near future
 * 03/15 - Paging questions in home (make load more questions button work. Don't show it if there are only few questions)
 * 03/15 - Paging answers in question detail
 * 03/16 - Removed votes are still there - fix this
-* 03/14 - Recently added answer doesn't look like other answer - fix this
 * 03/16 - Make search work
 * Deploy v1.1!!
 

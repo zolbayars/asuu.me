@@ -5,14 +5,57 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="blog-post">
-  <p><%= answer.text %></p>
-  <p class="blog-post-meta"><%= timeagoInstance.format(answer.createdDate, 'mn') %> by
-    <a href="#">
-      <% if(answer.user){ %>
-        <%= answer.user.fb.displayName %>
-      <% }else{ %>
-        anonymous
-      <% } %>
-     </a></p>
-</div>
+<table>
+  <tr>
+    <td class="votecell">
+      <div class="vote" id="vote-div-<%= answer._id %>">
+
+        <a href="#" class="vote-button"
+          data-post-id="<%= answer._id %>"
+          data-is-positive="1"
+          data-toggle="popover"
+          data-placement="top"
+          data-trigger="manual"
+          data-html="true"
+          data-is-already-clicked="0"
+          data-vote-id="0"
+          data-post-type="answer"
+          data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= answer.questionId %>/login-redirect'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
+          <img id="vote-top-chevron-<%= answer._id %>" src="/public/images/chevron-top.svg"/>
+        </a>
+
+        <span class="vote-count-post" id="vote-count-<%= answer._id %>"><%= answer.voteSum %></span>
+
+        <a href="#" class="vote-button"
+          data-post-id="<%= answer._id %>"
+          data-is-positive="0"
+          data-toggle="popover"
+          data-placement="bottom"
+          data-trigger="manual"
+          data-html="true"
+          data-is-already-clicked="0"
+          data-vote-id="0"
+          data-post-type="answer"
+          data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= answer.questionId %>/login-redirect'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
+          <img id="vote-bottom-chevron-<%= answer._id %>" src="/public/images/chevron-bottom.svg"/>
+        </a>
+
+      </div>
+    </td>
+    <td>
+      <div class="blog-post">
+        <p><%= answer.text %></p>
+        <p class="blog-post-meta"><%= timeagoInstance.format(answer.createdDate, 'mn') %> by
+          <a href="#">
+            <% if(answer.user){ %>
+              <%= answer.user.fb.displayName %>
+            <% }else{ %>
+              anonymous
+            <% } %>
+           </a></p>
+      </div>
+
+    </td>
+
+  </tr>
+</table>
