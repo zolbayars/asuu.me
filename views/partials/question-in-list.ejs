@@ -4,17 +4,32 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<a href="/questions/<%= question._id %>/<%= question.slug %>" class="list-group-item list-group-item-action flex-column align-items-start">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1"><%= question.text %></h5>
-    <small><%= timeagoInstance.format(question.createdDate, 'mn') %></small>
+
+<a href="/questions/<%= question._id %>/<%= question.slug %>"
+  class="list-group-item list-group-item-action flex-column align-items-start">
+
+  <div class="question-container row">
+
+    <div class="question-stat-container col-lg-3 col-md-4 col-sm-6">
+      <div class="row" style="text-align: center">
+        <div class="col-lg-4 col-md-4 col-4"><%= question.views %><br>views</div>
+        <div class="col-lg-4 col-md-4 col-4"><%= question.votes.length %><br>votes </div>
+        <div class="col-lg-4 col-md-4 col-4"><%= question.answers.length %><br>answers</div>
+      </div>
+    </div>
+    <div class="question-container-home col-lg-9 col-md-8 col-sm-6">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><%= question.text %></h5>
+        <small><%= timeagoInstance.format(question.createdDate, 'mn') %></small>
+      </div>
+      <!-- <p class="mb-1"></p> -->
+      <small id="question-date">
+        <% if(question.user != null){ %>
+          <%= question.user.fb.displayName %>
+        <% }else{ %>
+          anonymous
+        <% } %>
+      </small>
+    </div>
   </div>
-  <!-- <p class="mb-1"></p> -->
-  <small id="question-date">
-    <% if(question.user != null){ %>
-      <%= question.user.fb.displayName %>
-    <% }else{ %>
-      anonymous
-    <% } %>
-  </small>
 </a>
