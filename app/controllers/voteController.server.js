@@ -60,7 +60,7 @@ function VoteController(myCache){
     try {
       await updateVoteSum(params, true);
       let removeVoteResult = await Vote.findByIdAndRemove(params['vote-id']).exec();
-      console.log("removeVoteResult", removeVoteResult);
+      // console.log("removeVoteResult", removeVoteResult);
 
       return utils.getSuccessTemplate(ResultConstants.SUCCESS);
 
@@ -102,9 +102,12 @@ function VoteController(myCache){
       // console.log("valueToChange", valueToChange);
 
       let updateVoteSumQuery = postObj.findByIdAndUpdate(params['post-id'],
-        { "$inc": { "voteSum": valueToChange } });
+        { "$inc": { "voteSum": valueToChange } },
+        { "$pull": { "votes": params['vote-id'] } }
+      );
+
       let updateVoteSumQueryResult = await updateVoteSumQuery.exec();
-      // console.log("updateVoteSum query result", updateVoteSumQueryResult);
+      console.log("updateVoteSum query result", updateVoteSumQueryResult);
     } catch (e) {
       console.error("Error while updateing vote sum", e);
     }
