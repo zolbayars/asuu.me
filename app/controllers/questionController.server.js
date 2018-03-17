@@ -94,7 +94,7 @@ function QuestionController(myCache){
   this.getQuestionByID = function(questionId, currentUser, callback){
 
     var query = Question.where({ _id: questionId });
-    var populateQuery = [{path:'user'}, {path:'answers', populate: {path: 'user'}, populate: {path: 'votes'} }, {path:'votes'}];
+    var populateQuery = [{path:'user'}, {path:'answers', populate: [{path: 'user', model: 'User'}, {path: 'votes', model: 'Vote'}] }, {path:'votes'}];
 
     query.findOne(async function(err, question){
       if(err){
@@ -105,6 +105,8 @@ function QuestionController(myCache){
         callback(null, null);
       }
 
+      console.log("question in da house", question);
+
       if(question){
 
         Question.update({ _id: questionId }, { $inc: {views: 1 } }, function(err, raw){
@@ -113,8 +115,8 @@ function QuestionController(myCache){
 
         let voteData = await postHelper.getVoteData(currentUser, question.votes, question.answers);
 
-        // console.log("question: ",question);
-        console.log("vote data: ",voteData);
+        console.log("question: ",question);
+        // console.log("vote data: ",voteData);
 
         callback(question, voteData);
       }
@@ -132,7 +134,7 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        utils.log("Debug", "Returning rel questions", relatedQuestions);
+        // utils.log("Debug", "Returning rel questions", relatedQuestions);
         callback(relatedQuestions);
       }).limit(5);
 
