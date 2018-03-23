@@ -17,6 +17,12 @@
         <div class="col-sm-8 blog-main">
 
           <div id="question-info-container" class="blog-post" data-qid="">
+
+            <input id='skip-count' type="hidden" value="<%= skip %>"/>
+            <input id='per-page-count' type="hidden" value="<%= per_page %>"/>
+            <input id='question-id' type="hidden" value="<%= questionData._id %>"/>
+            <input id='question-slug' type="hidden" value="<%= questionData.slug %>"/>
+
             <h2 class="blog-post-title"><%= questionData.text %></h2>
             <hr>
             <table class="question-detail-table">
@@ -74,15 +80,26 @@
             </table>
           </div><!-- /.blog-post -->
 
-          <h4><%= questionData.answers.length %> answers </h4>
+          <h4><%= answerCount %> answers </h4>
 
           <%- include('partials/answer-list') %>
 
-          <% if(questionData.answers != null && questionData.answers.length > 10 ){ %>
+          <% if(questionData.answers != null && questionData.answers.length >= 20 ){ %>
             <nav class="blog-pagination">
               <div class="row load-more-container">
                 <div class="col-lg-12">
-                  <button type="button" class="btn btn-outline-primary btn-lg btn-block">Load more answers</button>
+
+                  <button id="load-more-answer-btn" type="button" class="btn btn-outline-primary btn-lg btn-block">
+                    <span id="load-answer-btn-text">Load more answers</span>
+                    <span id="load-answer-btn-loader" style="display: none">
+                      <div class="loader-inner line-scale">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </span>
+                  </button>
+
                 </div>
               </div>
             </nav>

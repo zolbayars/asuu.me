@@ -27,6 +27,10 @@ module.exports = {
     result_code: 905,
     result_msg: "No more questions in our DB",
   },
+  NO_MORE_ANSWERS: {
+    result_code: 906,
+    result_msg: "No more answerResult in our DB",
+  },
   400: {
     result_code: 400,
     result_msg: "Invalid parameters",

@@ -25,6 +25,9 @@ module.exports = function(app, passport, myCache){
   const paginationPerPage = 20; ;
   const paginationLimit = 20;
 
+  const answerPageSkip = 0;
+  const answerPerPage = 20;
+
   app.route('/')
     .get(function(req, res){
 
@@ -97,21 +100,38 @@ module.exports = function(app, passport, myCache){
         timeagoInstance: timeago()
       }
 
-      questionController.getQuestionByID(req.params.id, user, function(data, voteData){
-        if(data){
-          templateValues['questionData'] = data,
-          templateValues['isUserUpVoted'] = voteData.isUserUpVoted,
-          templateValues['isUserDownVoted'] = voteData.isUserDownVoted,
-          templateValues['answerVotes'] = voteData.answerVotes,
-          templateValues['title'] = data.text + " - asuu.me"
+      let skip = answerPageSkip;
 
-          questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
-            if(relatedQuestions){
-              templateValues['relatedQuestions'] = relatedQuestions,
-              res.render("question-detail", templateValues);
+      if(req.query['skip']){
+        skip = parseInt(req.query['skip']);
+      }
+
+      questionController.getQuestionByID(req.params.id, user, skip, answerPerPage,
+        function(data, answerCount, voteData){
+          if(data){
+            templateValues['questionData'] = data,
+            templateValues['isUserUpVoted'] = voteData.isUserUpVoted,
+            templateValues['isUserDownVoted'] = voteData.isUserDownVoted,
+            templateValues['answerVotes'] = voteData.answerVotes,
+            templateValues['answerCount'] = answerCount,
+            templateValues['title'] = data.text + " - asuu.me"
+            templateValues['skip'] = skip;
+            templateValues['per_page'] = answerPerPage;
+
+            if(skip == 0){
+              questionController.getRelatedQuestions(data.text, data._id, function(relatedQuestions){
+                if(relatedQuestions){
+                  templateValues['relatedQuestions'] = relatedQuestions,
+                  res.render("question-detail", templateValues);
+                }
+              });
+            }else if(data.answers.length == 0){
+              res.json(ResultConstants.NO_MORE_ANSWERS);
+            }else{
+              res.render("partials/answer-list", templateValues);
             }
-          });
-        }
+
+          }
 
 
       });

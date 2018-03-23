@@ -8,7 +8,6 @@ function PostHelper() {
     // Check if user upvoted or downvoted on a post.
     this.getVoteData = async function(user, votes, answers = null){
 
-        console.log("user in getVoteData", user);
         let voteData = {
           isUserUpVoted: false,
           isUserDownVoted: false,
@@ -24,8 +23,6 @@ function PostHelper() {
             console.error(e);
             return result;
           }
-
-          console.log("realUser in getVoteData", realUser);
 
           if(votes.length > 0){
             for(var element of votes){

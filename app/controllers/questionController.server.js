@@ -76,15 +76,9 @@ function QuestionController(myCache){
     Question
       .find({}, {}, { skip: skip, limit: limit }, function(err, questionsData){
         if(err){
-          console.log("err in getQuestions: ");
-          console.error(err);
-
           utils.error(user, "Error while getting questions: ", err);
           callback(null);
         }
-
-        // utils.log(user, "skip and limit: ", skip + " - " + limit);
-        // utils.log(user, "Questions len: ", questionsData.length);
 
         callback(questionsData);
       })
@@ -93,21 +87,26 @@ function QuestionController(myCache){
   }
 
   // Get a question by its ID
-  this.getQuestionByID = function(questionId, currentUser, callback){
+  this.getQuestionByID = function(questionId, currentUser, skipCount, limitCount, callback){
 
     var query = Question.where({ _id: questionId });
-    var populateQuery = [{path:'user'}, {path:'answers', populate: [{path: 'user', model: 'User'}, {path: 'votes', model: 'Vote'}] }, {path:'votes'}];
+    var populateQuery = [
+      {path:'user'},
+      {path:'answers',
+        options: { skip: skipCount, limit: limitCount, sort: {createdDate: 1}},
+        populate: [
+          {path: 'user', model: 'User'},
+          {path: 'votes', model: 'Vote'}
+        ]
+      },
+      {path:'votes'}
+    ];
 
     query.findOne(async function(err, question){
       if(err){
-        console.log("err in getQuestions: ");
-        console.error(err);
-
         utils.error("Debug", "Error while getting questions: ", err);
         callback(null, null);
       }
-
-      console.log("question in da house", question);
 
       if(question){
 
@@ -116,11 +115,9 @@ function QuestionController(myCache){
         });
 
         let voteData = await postHelper.getVoteData(currentUser, question.votes, question.answers);
-
-        console.log("question: ",question);
-        // console.log("vote data: ",voteData);
-
-        callback(question, voteData);
+        let answerCount = await getAnswerCount(questionId);
+        console.log("answer count: " + answerCount);
+        callback(question, answerCount, voteData);
       }
     }).populate(populateQuery);
 
@@ -136,24 +133,47 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        // utils.log("Debug", "Returning rel questions", relatedQuestions);
         callback(relatedQuestions);
       }).limit(5);
 
     }
 
 
-  function genSlug(questionText){
-    var splitted = questionText.split(" ");
-    var result = "";
-    splitted.forEach(function(element, index){
-      result = result + element;
-      if(index < splitted.length - 1){
-        result = result + "-";
+    async function getAnswerCount(questionId){
+      var query = Question.where({ _id: questionId });
+
+      let result = 0;
+      try {
+        let queryResult = await query.findOne(async function(err, question){
+          if(err){
+            utils.error("Debug", "Error in getAnswerCount ", err);
+            throw new Error(err);
+          }
+
+          if(question){
+            return queryResult.answers.length;
+          }
+        });
+
+        result = queryResult.answers.length;
+      } catch (e) {
+        
       }
-    });
-    return result;
-  }
+
+      return result;
+    }
+
+    function genSlug(questionText){
+      var splitted = questionText.split(" ");
+      var result = "";
+      splitted.forEach(function(element, index){
+        result = result + element;
+        if(index < splitted.length - 1){
+          result = result + "-";
+        }
+      });
+      return result;
+    }
 }
 
 module.exports = QuestionController;

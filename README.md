@@ -10,9 +10,9 @@ We're still developing it and here's the list of features we need in near future
 ### TODO
 
 #### v1.1
-* 03/15 - Paging answers in question detail
 * 03/16 - Make search work
 * Deploy v1.1!!
+* Write documentation!
 
 #### v1.1.1
 * Update with best practices
