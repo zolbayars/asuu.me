@@ -38,6 +38,9 @@
       <div class="row question-nav-container">
         <div class="col-lg-12">
           <input id='active-nav-type' type="hidden" value="<%= activeNav %>"/>
+          <input id='skip-count' type="hidden" value="<%= skip %>"/>
+          <input id='limit-count' type="hidden" value="<%= limit %>"/>
+          <input id='per-page-count' type="hidden" value="<%= per_page %>"/>
           <nav class="nav nav-pills nav-fill">
             <a id='nav-recent' class="nav-item nav-link" href="?nav=recent">Recent</a>
             <a id='nav-viewed' class="nav-item nav-link" href="?nav=viewed">Most viewed</a>
@@ -49,11 +52,22 @@
 
       <%- include('partials/questions-list') %>
 
-      <div class="row load-more-container">
-        <div class="col-lg-12">
-          <button type="button" class="btn btn-outline-primary btn-lg btn-block"><%= __('Load more questions')%></button>
+      <% if(questionsData != null && questionsData.length == 5){ %>
+        <div class="row load-more-container">
+          <div class="col-lg-12">
+            <button id="load-more-question-btn" type="button" class="btn btn-outline-primary btn-lg btn-block">
+              <span id="load-question-btn-text"><%= __('Load more questions')%></span>
+              <span id="load-question-btn-loader" style="display: none">
+                <div class="loader-inner line-scale">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </span>
+            </button>
+          </div>
         </div>
-      </div>
+      <% } %>
 
     </main><!-- /.container -->
 

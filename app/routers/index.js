@@ -42,16 +42,37 @@ module.exports = function(app, passport, myCache){
         timeagoInstance: timeago(),
         result_code: 900
       }
-      
-      questionController.getQuestions(user, req.query['nav'], function(data){
+
+      let skip = 0;
+      let limit = 5;
+      let perPage = 5;
+
+      if(req.query['skip']){
+        skip = parseInt(req.query['skip']);
+      }
+
+      if(req.query['limit']){
+        limit = parseInt(req.query['limit']);
+      }
+
+      questionController.getQuestions(user, req.query['nav'], skip, limit, function(data){
         if(data){
           templateValues['questionsData'] = data;
           templateValues['result_code'] = 1000;
           templateValues['activeNav'] = req.query['nav'];
+          templateValues['skip'] = skip;
+          templateValues['limit'] = limit;
+          templateValues['per_page'] = perPage;
           // console.log(data);
         }
 
-        res.render("home", templateValues);
+        if(skip == 0){
+          res.render("home", templateValues);
+        }else if(data.length == 0){
+          res.json(ResultConstants.NO_MORE_QUESTIONS); 
+        }else{
+          res.render("partials/questions-list", templateValues);
+        }
       });
 
     });

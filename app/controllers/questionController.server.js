@@ -57,7 +57,7 @@ function QuestionController(myCache){
   }
 
   // Get all questions
-  this.getQuestions = function(user, sortBy, callback){
+  this.getQuestions = function(user, sortBy, skip, limit, callback){
 
     let sortObj = {createdDate: -1};
 
@@ -74,7 +74,7 @@ function QuestionController(myCache){
     }
 
     Question
-      .find({}, {}, function(err, questionsData){
+      .find({}, {}, {skip: skip, limit: limit}, function(err, questionsData){
         if(err){
           console.log("err in getQuestions: ");
           console.error(err);
@@ -83,7 +83,9 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        //utils.log(user, "Questions", questionsData);
+        utils.log(user, "skip and limit: ", skip + " - " + limit);
+        utils.log(user, "Questions len: ", questionsData.length);
+
         callback(questionsData);
       })
       .populate('user')
