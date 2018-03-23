@@ -74,7 +74,7 @@ function QuestionController(myCache){
     }
 
     Question
-      .find({}, {}, {skip: skip, limit: limit}, function(err, questionsData){
+      .find({}, {}, { skip: skip, limit: limit }, function(err, questionsData){
         if(err){
           console.log("err in getQuestions: ");
           console.error(err);
@@ -83,8 +83,8 @@ function QuestionController(myCache){
           callback(null);
         }
 
-        utils.log(user, "skip and limit: ", skip + " - " + limit);
-        utils.log(user, "Questions len: ", questionsData.length);
+        // utils.log(user, "skip and limit: ", skip + " - " + limit);
+        // utils.log(user, "Questions len: ", questionsData.length);
 
         callback(questionsData);
       })

@@ -21,6 +21,9 @@ module.exports = function(app, passport, myCache){
   let errorHandler = new ErrorHandler();
 
   const clientIdCacheKey = "client-id";
+  const paginationSkip = 0;
+  const paginationPerPage = 20; ;
+  const paginationLimit = 20;
 
   app.route('/')
     .get(function(req, res){
@@ -43,9 +46,9 @@ module.exports = function(app, passport, myCache){
         result_code: 900
       }
 
-      let skip = 0;
-      let limit = 5;
-      let perPage = 5;
+      let skip = paginationSkip;
+      let limit = paginationLimit;
+      let perPage = paginationPerPage;
 
       if(req.query['skip']){
         skip = parseInt(req.query['skip']);
@@ -69,7 +72,7 @@ module.exports = function(app, passport, myCache){
         if(skip == 0){
           res.render("home", templateValues);
         }else if(data.length == 0){
-          res.json(ResultConstants.NO_MORE_QUESTIONS); 
+          res.json(ResultConstants.NO_MORE_QUESTIONS);
         }else{
           res.render("partials/questions-list", templateValues);
         }
