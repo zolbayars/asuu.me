@@ -59,7 +59,7 @@
         $("#load-question-btn-loader").hide();
 
         if(data != null && data.hasOwnProperty('result_code') && data.result_code == 905){
-          $('#load-more-question-btn').hide(); 
+          $('#load-more-question-btn').hide();
         }
 
         $("#add-question-result-warning-container").remove();
@@ -144,7 +144,7 @@
 
   function loadMoreQuestions(params, errorCallback, callback){
 
-    var ajaxObj = ajaxCall('GET', params, '/');
+    var ajaxObj = ajaxCall('GET', params, $('home-page-type').val() == 'normal' ? '/' : '/search');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
       console.error(textStatus);

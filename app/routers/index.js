@@ -7,6 +7,7 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var path = process.cwd();
 var QuestionController = require(process.cwd() + "/app/controllers/questionController.server.js");
 var AnswerController = require(process.cwd() + "/app/controllers/answerController.server.js");
+var SearchController = require(process.cwd() + "/app/controllers/searchController.server.js");
 var VoteController = require(process.cwd() + "/app/controllers/voteController.server.js");
 var ResultConstants = require(process.cwd() + "/app/config/result-constants.js");
 var GeneralHelper = require(process.cwd() + "/app/helpers/generalHelper.js");
@@ -18,6 +19,7 @@ module.exports = function(app, passport, myCache){
   var questionController = new QuestionController(myCache);
   var answerController = new AnswerController(myCache);
   var voteController = new VoteController(myCache);
+  var searchController = new SearchController(myCache);
   let errorHandler = new ErrorHandler();
 
   const clientIdCacheKey = "client-id";
@@ -46,7 +48,8 @@ module.exports = function(app, passport, myCache){
         title: 'asuu.me - Where you can find the answers',
         user: user,
         timeagoInstance: timeago(),
-        result_code: 900
+        result_code: 900,
+        home_type: 'normal'
       }
 
       let skip = paginationSkip;
@@ -69,7 +72,6 @@ module.exports = function(app, passport, myCache){
           templateValues['skip'] = skip;
           templateValues['limit'] = limit;
           templateValues['per_page'] = perPage;
-          // console.log(data);
         }
 
         if(skip == 0){
@@ -81,6 +83,69 @@ module.exports = function(app, passport, myCache){
         }
       });
 
+    });
+
+  app.post('/search', [
+      check('search-input').exists()
+    ], async (req, res, next) =>{
+
+      try {
+        validationResult(req).throw();
+
+        var user = 'anonymous';
+        if(req.user){
+          user = req.user.fb;
+        }
+
+        var utils = new GeneralHelper();
+        var localTimeAgo = utils.getTimeAgoMNLocale();
+
+        timeago.register('mn', localTimeAgo);
+
+        var templateValues = {
+          title: 'asuu.me - ' + req.body['search-input'],
+          user: user,
+          timeagoInstance: timeago(),
+          result_code: 900,
+          home_type: 'search'
+        }
+
+        let skip = paginationSkip;
+        let limit = paginationLimit;
+        let perPage = paginationPerPage;
+
+        if(req.query['skip']){
+          skip = parseInt(req.query['skip']);
+        }
+
+        if(req.query['limit']){
+          limit = parseInt(req.query['limit']);
+        }
+
+        let searchResult = await searchController.search(req.body['search-input'], null, skip, limit);
+
+        if(searchResult){
+          templateValues['questionsData'] = searchResult;
+          templateValues['result_code'] = 1000;
+          templateValues['activeNav'] = null,
+          templateValues['skip'] = skip;
+          templateValues['limit'] = limit;
+          templateValues['per_page'] = perPage;
+        }
+
+        if(skip == 0){
+          res.render("home", templateValues);
+        }else if(data.length == 0){
+          res.json(ResultConstants.NO_MORE_QUESTIONS);
+        }else{
+          res.render("partials/questions-list", templateValues);
+        }
+
+      } catch (err) {
+        res.status(400).json(ResultConstants[400]);
+      }
+
+      res.json(ResultConstants.SUCCESS);
     });
 
   app.route('/questions/:id/:slug')
@@ -195,29 +260,6 @@ module.exports = function(app, passport, myCache){
   	}) (req,res,next);
    });
 
-  // app.get('/auth/facebook/callback/', function(req,res,next) {
-  //   console.log("!!!!!! redirect url: ",req.query.url);
-  //   passport.authenticate(
-  //     'facebook',
-  //      {
-  //        callbackURL:"/auth/facebook/callback/?url="+req.query['url']
-  //      , successRedirect:req.query.url
-  //      , failureRedirect:"/login_failed.html"
-  //      }
-  //    ) (req,res,next);
-  //  });
-
-  // app.get('/auth/facebook/callback', function(req, res, next) {
-  //   passport.authenticate('facebook', function(err, user, info) {
-  //     if (err) { return next(err); }
-  //     if (!user) { return res.redirect('/login'); }
-  //     req.logIn(user, function(err) {
-  //       if (err) { return next(err); }
-  //       return res.redirect(req.query['redirect-url']);
-  //     });
-  //   })(req, res, next);
-  // });
-
   // Add vote to question or answer
   app.post('/vote/add', [
       check('post-id').exists(),
@@ -274,10 +316,6 @@ module.exports = function(app, passport, myCache){
       }
     });
 
-
-  // app.route('/places/photo/:id')
-  //   .get(placeController.getPlaceImage);
-  //
   app.post('/answer/add', [
       check('question-id').exists(),
       check('text').exists()

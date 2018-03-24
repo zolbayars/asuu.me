@@ -10,14 +10,15 @@
     <div class="container-fluid">
 
       <div class="row justify-content-end">
-  
+
         <div >
-          <form id="search-form" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search">
-            <input type="hidden" id="current-user-id" name="current-user-id" value="<% if(user == 'anonymous'){ %>anonymous<% }else{ %><%= user._id %><% } %>"/>
+          <form id="search-form" action="/search" class="form-inline my-2 my-lg-0" method="post">
+            <input id="search-input" name="search-input" class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search"></input>
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><%= __('Search') %></button>
           </form>
 
+
+          <input type="hidden" id="current-user-id" name="current-user-id" value="<% if(user == 'anonymous'){ %>anonymous<% }else{ %><%= user._id %><% } %>"/>
             <% if(user == 'anonymous'){ %>
               <a href="/auth/facebook/?url=" id="login-btn-anchor"><button id="login-btn-navbar" class="btn btn-outline-light my-2 my-sm-0">Login</button></a>
             <% }else{ %>
@@ -27,8 +28,8 @@
                   <%= user.displayName %>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="/profile">Profile</a>
-                  <div class="dropdown-divider"></div>
+                  <!-- <a class="dropdown-item" href="/profile">Profile</a>
+                  <div class="dropdown-divider"></div> -->
                   <a class="dropdown-item" href="/logout">Sign out</a>
                 </div>
               </div>
