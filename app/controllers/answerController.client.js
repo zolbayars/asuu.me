@@ -13,7 +13,7 @@
     if(isValidAnswerText(quickAnswerText) === true){
       $("#answer-btn-text").hide();
       $("#answer-btn-loader").show();
-      console.log($('#question-id').val());
+
       addQuickAnswer($('#question-id').val(), quickAnswerText.trim(), function(error){
         if(error){
           $("#answer-btn-text").show();
@@ -21,9 +21,11 @@
           showAnswerWarning(error);
         }
       }, function(response){
-        console.log(response);
         $("#answer-btn-text").show();
         $("#answer-text-input").val('');
+
+        console.log($("#answer-count").text());
+        $("#answer-count").text(parseInt($("#answer-count").text()) + 1);
         $("#answer-btn-loader").hide();
         $("#add-answer-result-warning-container").remove();
         $("#answer-list-container").append(response);
@@ -97,7 +99,7 @@
 
   function addQuickAnswer(questionId, answerText, errorCallback, callback){
 
-    console.log(answerText);
+    // console.log(answerText);
     var ajaxObj = ajaxCall('POST', { 'question-id': questionId, 'text': answerText}, '/answer/add');
 
     ajaxObj.fail(function(jqXHR, textStatus, errorThrown){
@@ -108,7 +110,7 @@
     });
 
     ajaxObj.done(function(data){
-      console.log(data);
+      // console.log(data);
       return callback(data);
     });
 
@@ -139,7 +141,7 @@
     });
 
     ajaxObj.done(function(data){
-      console.log(data);
+      // console.log(data);
       return callback(data);
     });
 
