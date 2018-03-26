@@ -29,39 +29,4 @@ APP_URL=http://local.asuu.me/
 
 ## Development
 
-We're still developing it and here's the list of features we need in near future.
-
-### TODO
-
-#### v1.1.1
-* Update with best practices
-  * HTML & CSS
-  * Node.js
-
-#### v1.2
-* Browser notifications
-  * When question is voted
-  * When question is answered
-  * When answer is voted
-
-#### v1.3
-* User points
-  * By question votes  
-  * By answer votes
-
-#### v1.4
-* User info
-  * Show user score and rank in question detail page
-  * User profile page
-    * Score and rank
-    * questions asked
-    * answers provided
-
-#### v1.5    
-* Detailed question form -> 03/04
-  * Basic form with following functionalities and fields:
-    * Title
-    * Question body
-      * Markdown
-    * Tag
-      * Auto completion
+We're still developing it and really appreciate any kind of contribution :sparkles:. You can see our kanban board [here](https://github.com/zolbayars/asuu.me/projects/1) and develop anything on the "To do" column right away :wink:. 
