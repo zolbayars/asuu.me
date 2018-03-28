@@ -4,7 +4,7 @@
 
 ### Screenshots
 
-[[docs/screenshots/screenshot_0.png|alt=asuu.me]]
+[[https://github.com/zolbayars/asuu.me/blob/master/docs/screenshots/screenshot_0.png|alt=asuu.me]]
 
 ## Getting Started
 
