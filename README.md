@@ -38,7 +38,7 @@ APP_URL=http://local.asuu.me/
 
 We will really appreciate any kind of contribution :sparkles:. You can see our kanban board [here](https://github.com/zolbayars/asuu.me/projects/1) and develop anything on the "To do" column right away :wink:. 
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 ## Authors
@@ -49,7 +49,7 @@ See also the list of [contributors](https://github.com/zolbayars/asuu.me/graphs/
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](docs/LICENSE) file for details
 
 ## Acknowledgments
 
