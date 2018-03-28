@@ -2,7 +2,14 @@
 
 [Asuu.me](https://asuu.me/) is a Q&A website built for real-life node.js practice.
 
-## Installation
+## Getting Started
+
+### Prerequisites
+
+* Node.js
+* Mongo DB Instance (local or remote)
+
+### Installing
 
 1. `git clone` this repository
 2. `npm install`
@@ -27,6 +34,23 @@ APP_URL=http://local.asuu.me/
 4. `npm run` to start the server 
 5. Now open `local.asuu.me` on your browser
 
-## Development
+## Contributing
 
-We're still developing it and really appreciate any kind of contribution :sparkles:. You can see our kanban board [here](https://github.com/zolbayars/asuu.me/projects/1) and develop anything on the "To do" column right away :wink:. 
+We will really appreciate any kind of contribution :sparkles:. You can see our kanban board [here](https://github.com/zolbayars/asuu.me/projects/1) and develop anything on the "To do" column right away :wink:. 
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+
+## Authors
+
+* **Zolbayar Bayarsaikhan** - *Initial work* - [Zolo](https://www.zolbayar.com)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone who's code was used
