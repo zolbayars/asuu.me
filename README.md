@@ -2,6 +2,10 @@
 
 [Asuu.me](https://asuu.me/) is a Q&A website built for real-life node.js practice.
 
+### Screenshots
+
+[[docs/screenshots/screenshot_0.png|alt=asuu.me]]
+
 ## Getting Started
 
 ### Prerequisites
