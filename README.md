@@ -38,7 +38,7 @@ APP_URL=http://local.asuu.me/
 
 We will really appreciate any kind of contribution :sparkles:. You can see our kanban board [here](https://github.com/zolbayars/asuu.me/projects/1) and develop anything on the "To do" column right away :wink:. 
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 ## Authors
