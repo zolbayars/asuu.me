@@ -13,14 +13,14 @@
 
         <div >
           <form id="search-form" action="/search" class="form-inline my-2 my-lg-0" method="post">
-            <input id="search-input" name="search-input" class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search"></input>
+            <input id="search-input" name="search-input" class="form-control mr-sm-2" type="text" placeholder="<%= __('Search')%>" aria-label="Search"/>
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><%= __('Search') %></button>
           </form>
 
 
           <input type="hidden" id="current-user-id" name="current-user-id" value="<% if(user == 'anonymous'){ %>anonymous<% }else{ %><%= user._id %><% } %>"/>
             <% if(user == 'anonymous'){ %>
-              <a href="/auth/facebook/?url=" id="login-btn-anchor"><button id="login-btn-navbar" class="btn btn-outline-light my-2 my-sm-0">Login</button></a>
+              <a href="/auth/facebook/?url=" id="login-btn-anchor" class="btn btn-outline-light my-2 my-sm-0">Login</a>
             <% }else{ %>
 
               <div class="btn-group">

@@ -10,7 +10,7 @@
 
     <%- include('partials/navbar.ejs') %>
 
-    <main role="main" class="container">
+    <main class="container">
 
       <div class="starter-template">
         <input type="hidden" id="home-page-type" value="<%= home_type %>"/>
@@ -21,15 +21,15 @@
             <div class="lead input-group">
               <input id="quick-question-input" class="form-control form-control-lg" type="text" placeholder="<%= __('Ask your question')%>" aria-label="<%= __('Ask your question')%>" />
               <span class="input-group-btn">
-                <button class="btn btn-primary" type="submit button">
+                <button class="btn btn-primary" type="submit">
                   <span id="ask-btn-text"><%= __('Ask')%></span>
-                  <span id="ask-btn-loader" style="display: none">
+                  <div id="ask-btn-loader" style="display: none">
                     <div class="loader-inner line-scale">
                       <div></div>
                       <div></div>
                       <div></div>
                     </div>
-                  </span>
+                  </div>
                 </button>
 
               </span>
@@ -79,13 +79,13 @@
           <div class="col-lg-12">
             <button id="load-more-question-btn" type="button" class="btn btn-outline-primary btn-lg btn-block">
               <span id="load-question-btn-text"><%= __('Load more questions')%></span>
-              <span id="load-question-btn-loader" style="display: none">
+              <div id="load-question-btn-loader" style="display: none">
                 <div class="loader-inner line-scale">
                   <div></div>
                   <div></div>
                   <div></div>
                 </div>
-              </span>
+              </div>
             </button>
           </div>
         </div>
