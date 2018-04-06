@@ -10,7 +10,7 @@
 
     <%- include('partials/navbar.ejs') %>
 
-    <main role="main" class="container">
+    <main class="container">
 
       <div class="row">
 
@@ -36,7 +36,7 @@
                       <img id="vote-top-chevron-<%= questionData._id %>" src="<% if(isUserUpVoted != false){ %>/public/images/chevron-top-clicked.svg<% }else{ %>/public/images/chevron-top.svg<% } %>"/>
                     </a>
                     <span class="vote-count-post" id="vote-count-<%= questionData._id %>"><%= questionData.voteSum %></span>
-                    <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="0"data-toggle="popover"
+                    <a href="#" class="vote-button" data-post-id="<%= questionData._id %>" data-is-positive="0" data-toggle="popover"
                       data-placement="bottom" data-trigger="manual" data-html="true" data-is-already-clicked="<% if(isUserDownVoted != false){ %>1<% }else{ %>0<% } %>"
                       data-vote-id="<%= isUserDownVoted %>" data-post-type="question"
                       data-content="<div class='login-fb-popover'><a href='/auth/facebook/?url=/questions/<%= questionData._id %>/<%= questionData.slug %>'><img src='/public/images/FB-f-Logo__blue_29.png'></img> Login to vote</a></div>">
@@ -75,7 +75,7 @@
 
 
                 </td>
-                  <p><%= questionData.textDetail %></p>
+                  <!-- <p><%= questionData.textDetail %></p> -->
               </tr>
             </table>
           </div><!-- /.blog-post -->
